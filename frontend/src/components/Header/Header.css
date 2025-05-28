@@ -1,0 +1,17 @@
+.header {
+    background-color: #9BB790;
+ 
+}
+.header-title {
+  margin: 0;
+ color: #333;
+}
+
+.header-icons svg {
+  color: #333;
+  transition: color 0.3s;
+}
+
+.header-icons svg:hover {
+  color: #DA8383;
+}
