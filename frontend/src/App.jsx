@@ -1,13 +1,30 @@
 // import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+
+import NavbarT from './components/Navbar/Navbar'
+import Header from './components/Header/Header'
+import Home from './pages/Home/Home'
+import Cart from './pages/Cart/Cart'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+
 
 function App() {
 
 
   return (
-    <>
-      
-    </>
+  <BrowserRouter>
+  <Header />
+  <NavbarT />
+  <Routes>
+     <Route path="/" element={<Home />} />
+     <Route path="/cart" element={<Cart />} />
+     {/* path='gallery/:product/:id' */}
+
+  </Routes>
+
+ </BrowserRouter>
   )
 }
 
