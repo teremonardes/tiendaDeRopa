@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Polera básica blanca",
+    "description": "Polera de algodón suave y cómoda.",
+    "prime": 12990,
+    "image": "https://cl-dam-resizer.ecomm.cencosud.com/unsafe/adaptive-fit-in/1920x0/paris/785963/variant/images/e9c2ece7-1df2-4b76-93d1-73caade319d4/785963-0101-001.jpg?text=Polera+Blanca",
+    "quantity": 20,
+    "type": "poleras",
+    "is_favorite": false
+  },
+  {
+    "id": 2,
+    "title": "Pantalón jogger gris",
+    "description": "Pantalón casual con pretina elástica.",
+    "prime": 19990,
+    "image": "https://cl-dam-resizer.ecomm.cencosud.com/unsafe/adaptive-fit-in/640x0/filters:quality(75)/paris/668063/variant/images/de362304-f8dc-411a-a7c4-0c3513fba3dd/668063-0000-001.jpg",
+    "quantity": 15,
+    "type": "pantalones",
+    "is_favorite": true
+  },
+  {
+    "id": 3,
+    "title": "Chaqueta de mezclilla",
+    "description": "Clásica chaqueta denim para cualquier temporada.",
+    "prime": 29990,
+    "image": "https://cl-cenco-pim-resizer.ecomm.cencosud.com/unsafe/adaptive-fit-in/640x0/filters:quality(75)/prd-cl/product-medias/MK1YLCD6VS/f1a40662-72d5-491f-b0ef-a7c122acdf8d/1689523182853-MK1YLCD6VS-1-4.jpg?text=Chaqueta+Mezclilla",
+    "quantity": 10,
+    "type": "chaquetas",
+    "is_favorite": false
+  }
+]
