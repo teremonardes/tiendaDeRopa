@@ -5,6 +5,7 @@ import NavbarT from './components/Navbar/Navbar'
 import Header from './components/Header/Header'
 import Home from './pages/Home/Home'
 import Cart from './pages/Cart/Cart'
+import Footer from './components/Footer/Footer'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -24,6 +25,7 @@ function App() {
 
   </Routes>
 
+<Footer />
  </BrowserRouter>
   )
 }
