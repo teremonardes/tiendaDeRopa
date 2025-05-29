@@ -5,7 +5,10 @@ import NavbarT from './components/Navbar/Navbar'
 import Header from './components/Header/Header'
 import Home from './pages/Home/Home'
 import Cart from './pages/Cart/Cart'
+import NotFound from './pages/NotFound/NotFound' 
 import Footer from './components/Footer/Footer'
+
+
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
@@ -22,6 +25,7 @@ function App() {
      <Route path="/" element={<Home />} />
      <Route path="/cart" element={<Cart />} />
      {/* path='gallery/:product/:id' */}
+     <Route path="*" element={<NotFound />} />
 
   </Routes>
 
