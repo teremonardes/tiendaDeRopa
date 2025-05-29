@@ -1,9 +1,9 @@
-
+import ProductCarousel from "../../components/Carousel/Carousel"
 
 const Home = () => {
   return (
     <div>Home
-  <img src="" />
+ <ProductCarousel />
     </div>
   )
 }

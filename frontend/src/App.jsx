@@ -1,5 +1,6 @@
 // import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import ProductProvider from './components/Context/fetchContext'
 
 import NavbarT from './components/Navbar/Navbar'
 import Header from './components/Header/Header'
@@ -19,6 +20,7 @@ function App() {
 
   return (
   <BrowserRouter>
+  <ProductProvider>
   <Header />
   <NavbarT />
   <Routes>
@@ -30,6 +32,7 @@ function App() {
   </Routes>
 
 <Footer />
+</ProductProvider>
  </BrowserRouter>
   )
 }
