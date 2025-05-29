@@ -9,10 +9,10 @@ const Header = () => {
       <Link to='/' className='text-decoration-none btn  btn-link'> <h1 className='header-title'>Mi Closet</h1>
       </Link>
       <div className="header-icons d-flex gap-3">
-        <Link to='/cart' className='text-decoration-none'>
+        <Link to='/cart' className='text-decoration-none p-2'>
         <FaShoppingCart size={24} />
         </Link>
-        <Link to='/profile' className='text-decoration-none'>
+        <Link to='/profile' className='text-decoration-none p-2'>
         <FaUserCircle size={24} />
         </Link>
       </div>
