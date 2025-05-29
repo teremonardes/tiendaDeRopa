@@ -10,8 +10,27 @@
 .header-icons svg {
   color: #f9f9f6;
   transition: color 0.3s;
+<<<<<<< HEAD
+=======
+  vertical-align: middle;
+  margin-top: 2px;
+  margin-bottom: 0; 
+  font-size: 24px;
+>>>>>>> 7750dfa (login)
 }
 
 .header-icons svg:hover {
   color: #f9f9f6;
+<<<<<<< HEAD
 }
+=======
+}
+  
+  .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    line-height: 1;
+
+}
+>>>>>>> 7750dfa (login)
