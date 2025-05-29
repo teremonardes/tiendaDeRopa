@@ -1,17 +1,17 @@
 .header {
-    background-color: #9BB790;
+    background-color: #617891;
  
 }
 .header-title {
   margin: 0;
- color: #333;
+ color: #f9f9f6;
 }
 
 .header-icons svg {
-  color: #333;
+  color: #f9f9f6;
   transition: color 0.3s;
 }
 
 .header-icons svg:hover {
-  color: #DA8383;
+  color: #f9f9f6;
 }
