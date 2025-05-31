@@ -8,6 +8,7 @@ import Home from './pages/Home/Home'
 import Cart from './pages/Cart/Cart'
 import NotFound from './pages/NotFound/NotFound' 
 import Footer from './components/Footer/Footer'
+import Register from './pages/Register/Register';
 
 
 
@@ -27,6 +28,7 @@ function App() {
      <Route path="/" element={<Home />} />
      <Route path="/cart" element={<Cart />} />
      {/* path='gallery/:product/:id' */}
+     <Route path="/register" element={<Register />} />
      <Route path="*" element={<NotFound />} />
 
   </Routes>

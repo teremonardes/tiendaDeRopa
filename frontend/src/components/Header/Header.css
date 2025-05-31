@@ -14,4 +14,5 @@
 
 .header-icons svg:hover {
   color: #f9f9f6;
+  vertical-align: middle;
 }
