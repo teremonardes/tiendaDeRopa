@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { ProductContext } from '../Context/fetchContext'
 import Carousel from 'react-bootstrap/Carousel'
+import './Carousel.css' 
 
 
 const ProductCarousel = () => {
@@ -13,17 +14,21 @@ const ProductCarousel = () => {
   return (
     <Carousel interval={3000} indicators={false}>
       {products.map(product => (
-        <Carousel.Item key={product.id} className="text-center p-4">
+        <Carousel.Item key={product.id} className="costum-slice text-center p-4">
+          <div className="d-flex flex-md-row align-items-center justify-content-between mx-auto mx-auto p-4 ">
+            <div className='image-container '>
           <img
             src={product.image}
             alt={product.title}
-            className="d-block mx-auto img-fluid"
+            className="d-block ms-5 img-fluid"
             style={{ maxHeight: '300px', objectFit: 'contain' }}
           />
-          <Carousel.Caption>
+          </div>
+          <div className='text-container d-flex flex-column text-center me-5'>
             <h5>{product.title}</h5>
             <p>{product.description}</p>
-          </Carousel.Caption>
+       </div>
+          </div>
         </Carousel.Item>
       ))}
     </Carousel>

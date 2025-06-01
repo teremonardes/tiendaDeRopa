@@ -12,7 +12,7 @@ const NavbarT = () => {
           <Nav.Link as={Link} to="/poleras" className='link-nav'>Poleras</Nav.Link>
           <Nav.Link as={Link} to="/pantalones" className='link-nav'>Pantalones</Nav.Link>
           <Nav.Link as={Link} to="/chaquetas" className='link-nav'>Chaquetas</Nav.Link>
-          <Nav.Link as={Link} to="/mas" className='link-nav'>Mas</Nav.Link>
+          <Nav.Link as={Link} to="/gallery" className='link-nav'>Mas</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

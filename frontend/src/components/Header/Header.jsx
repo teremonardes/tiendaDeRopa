@@ -3,19 +3,24 @@ import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+
 import { Link, useNavigate } from 'react-router-dom';
+
 import './Header.css';
 
 const Header = () => {
   const [showAuth, setShowAuth] = useState(false);
+
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+
 
   const handleClose = () => setShowAuth(false);
   const handleShow = () => setShowAuth(true);
 
   const handleAuth = (e) => {
     e.preventDefault();
+
     const form = e.target;
     const nombre = isLogin ? 'Usuario' : form.nombre.value;
     const email = form.email.value;
@@ -25,6 +30,7 @@ const Header = () => {
     localStorage.setItem('user', JSON.stringify(user));
     setShowAuth(false);
     navigate('/profile');
+
   };
 
   return (
@@ -52,16 +58,20 @@ const Header = () => {
             {!isLogin && (
               <Form.Group className="mb-3">
                 <Form.Label>Nombre</Form.Label>
+
                 <Form.Control name="nombre" type="text" placeholder="Tu nombre" required />
+
               </Form.Group>
             )}
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
+
               <Form.Control name="email" type="email" placeholder="ejemplo@correo.com" required />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control name="password" type="password" placeholder="Tu contraseña" required />
+
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">
               {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
@@ -73,4 +83,6 @@ const Header = () => {
   );
 };
 
+
 export default Header;
+
