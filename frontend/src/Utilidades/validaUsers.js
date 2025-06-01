@@ -1,8 +1,8 @@
+import { useState } from "react";
 import Swal from "sweetalert2";
 
-//Estados del formulario
-
-export const Alertas = (title, text, icon) => {
+// Alerta reutilizable
+export const Alertas = (title, text = "", icon = "warning") => {
   Swal.fire({
     title,
     text,
@@ -11,29 +11,46 @@ export const Alertas = (title, text, icon) => {
   });
 };
 
-export const [email, setEmail] = useState("");
-export const [contraseña, setContraseña] = useState("");
-export const [confirma, setConfirma] = useState("");
+// Custom hook
+export const useValidacionUser = ({ requiereConfirmacion = true } = {}) => {
+  const [email, setEmail] = useState("");
+  const [contraseña, setContraseña] = useState("");
+  const [confirma, setConfirma] = useState("");
 
-export const validaUsers = (e) => {
-  e.preventDefault(); //Validación;
-  if (!email.trim() || !contraseña.trim() || !confirma.trim()) {
-    Swal.fire("Todos los campos son obligatorios");
-    return;
-  }
+  const validar = (e) => {
+    e.preventDefault();
 
-  if (contraseña.length < 6) {
-    Swal.fire("Contraseña Debe tener al menos 6 caracteres");
-    return;
-  }
-  if (!email.includes("@")) {
-    Swal.fire(" Campo email No tiene formato de correo");
-    return;
-  }
+    if (!email.trim() || !contraseña.trim() || (requiereConfirmacion && !confirma.trim())) {
+      Alertas("Todos los campos son obligatorios");
+      return false;
+    }
 
-  if (contraseña !== confirma) {
-    Swal.fire("Contraseña Deben ser iguales");
-    return;
-  }
-  Swal.fire(" LOGIN ESTA CORRECTO");
+    if (contraseña.length < 6) {
+      Alertas("Contraseña debe tener al menos 6 caracteres");
+      return false;
+    }
+
+    if (!email.includes("@")) {
+      Alertas("El campo email no tiene formato válido");
+      return false;
+    }
+
+    if (requiereConfirmacion && contraseña !== confirma) {
+      Alertas("Las contraseñas deben ser iguales");
+      return false;
+    }
+
+    // Todo está bien
+    return true;
+  };
+
+  return {
+    email,
+    setEmail,
+    contraseña,
+    setContraseña,
+    confirma,
+    setConfirma,
+    validar
+  };
 };
