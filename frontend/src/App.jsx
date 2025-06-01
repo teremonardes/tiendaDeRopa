@@ -15,6 +15,8 @@ import Profile from  './pages/Profile/Profile';
 import Galeria from './pages/Gallery/Gallery'
 
 import UserProvider from './components/Context/userContext'
+import CreateProduct from './pages/CreateProduct/CreateProduct.jsx';
+
 
 
 
@@ -46,6 +48,8 @@ function App() {
      <Route path="/:type" element={<Galeria />} />
 
      <Route path="*" element={<NotFound />} />
+     <Route path="/create-product" element={<CreateProduct />} />
+
 
   </Routes>
 
