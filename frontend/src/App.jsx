@@ -14,6 +14,8 @@ import Profile from  './pages/Profile/Profile';
 
 import Galeria from './pages/Gallery/Gallery'
 
+import UserProvider from './components/Context/userContext'
+
 
 
 
@@ -26,6 +28,7 @@ function App() {
 
   return (
   <BrowserRouter>
+  <UserProvider>
   <ProductProvider>
   <Header />
   <NavbarT />
@@ -48,6 +51,7 @@ function App() {
 
 <Footer />
 </ProductProvider>
+</UserProvider>
  </BrowserRouter>
   )
 }
