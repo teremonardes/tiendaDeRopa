@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useState, useContext } from 'react';
-import { userContext } from '../Context/userContext';
+import { userContext } from '../Context/userContext'
 
 const CardProduct = ({ id, title, price, image, description, type, is_favorite }) => {
   const { token } = useContext(userContext);

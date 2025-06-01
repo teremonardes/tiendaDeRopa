@@ -11,6 +11,8 @@ import Footer from './components/Footer/Footer'
 import Register from './pages/Register/Register';
 import Galeria from './pages/Gallery/Gallery'
 
+import UserProvider from './components/Context/userContext'
+
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -22,6 +24,7 @@ function App() {
 
   return (
   <BrowserRouter>
+  <UserProvider>
   <ProductProvider>
   <Header />
   <NavbarT />
@@ -38,6 +41,7 @@ function App() {
 
 <Footer />
 </ProductProvider>
+</UserProvider>
  </BrowserRouter>
   )
 }
