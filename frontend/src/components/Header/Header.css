@@ -15,4 +15,36 @@
 .header-icons svg:hover {
   color: #f9f9f6;
   vertical-align: middle;
+
+}
+
+/* Botones del modal */
+.modal-body .btn-primary,
+.modal-body .btn-outline-primary {
+  background-color: #617891 !important;
+  border-color: #617891 !important;
+  color: #fff !important;
+}
+
+.modal-body .btn-outline-primary {
+  background-color: transparent !important;
+  color: #617891 !important;
+}
+
+.modal-body .btn-primary:hover,
+.modal-body .btn-outline-primary:hover {
+  background-color: #50657c !important;
+  border-color: #50657c !important;
+  color: #fff !important;
+}
+
+.modal-body form button {
+  background-color: #617891 !important;
+  border-color: #617891 !important;
+  color: #fff !important;
+}
+
+.modal-body form button:hover {
+  background-color: #50657c !important;
+  border-color: #50657c !important;
 }
