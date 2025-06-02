@@ -1,5 +1,5 @@
 // import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import ProductProvider from './components/Context/fetchContext'
 
 import NavbarT from './components/Navbar/Navbar'
@@ -27,7 +27,6 @@ function App() {
 
 
   return (
-  <BrowserRouter>
   <UserProvider>
   <ProductProvider>
   <Header />
@@ -52,7 +51,6 @@ function App() {
 <Footer />
 </ProductProvider>
 </UserProvider>
- </BrowserRouter>
   )
 }
 
