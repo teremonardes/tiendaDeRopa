@@ -12,12 +12,16 @@ import Profile from './pages/Profile/Profile'
 import Galeria from './pages/Gallery/Gallery'
 import Checkout from './pages/CheckOut/Checkout'
 import UserProvider from './components/Context/userContext'
+import CreateProduct from './pages/CreateProduct/CreateProduct.jsx';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
 function App() {
   return (
+
+       <BrowserRouter>
     <UserProvider>
       <ProductProvider>
         <Header />
@@ -30,11 +34,14 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/gallery" element={<Galeria />} />
           <Route path="/:type" element={<Galeria />} />
+          <Route path="/create-product" element={<CreateProduct />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </ProductProvider>
     </UserProvider>
+ </BrowserRouter>
+
   )
 }
 
