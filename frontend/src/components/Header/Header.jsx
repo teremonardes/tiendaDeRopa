@@ -1,37 +1,39 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-
 import { Link, useNavigate } from 'react-router-dom';
+
+import { userContext } from '../../components/Context/userContext';
+import LoginForm from '../../pages/Login/Login';
+import RegisterForm from '../../pages/Register/Register';
 
 import './Header.css';
 
 const Header = () => {
   const [showAuth, setShowAuth] = useState(false);
-
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
 
+
+  const { user } = useContext(userContext);
+
   const handleClose = () => setShowAuth(false);
   const handleShow = () => setShowAuth(true);
 
-  const handleAuth = (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const nombre = isLogin ? 'Usuario' : form.nombre.value;
-    const email = form.email.value;
-    const password = form.password.value;
-
-    const user = { nombre, email, password };
-    localStorage.setItem('user', JSON.stringify(user));
-    setShowAuth(false);
-    navigate('/profile');
-
+  const handleUserIconClick = () => {
+    if (user) {
+      navigate('/profile');
+    } else {
+      handleShow();
+    }
   };
+
+  useEffect(() => {
+  if (user) setShowAuth(false);
+}, [user]);
+
 
   return (
     <header className='header d-flex justify-content-between align-items-center p-2'>
@@ -42,7 +44,13 @@ const Header = () => {
         <Link to='/cart' className='text-decoration-none p-2'>
           <FaShoppingCart size={24} />
         </Link>
-        <FaUserCircle size={24} onClick={handleShow} style={{ cursor: 'pointer' }} />
+    <FaUserCircle
+  size={24}
+  onClick={handleUserIconClick}
+  style={{ cursor: 'pointer' }}
+/>
+
+
       </div>
 
       <Modal show={showAuth} onHide={handleClose} centered>
@@ -51,38 +59,27 @@ const Header = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-center mb-3">
-            <Button variant={isLogin ? 'primary' : 'outline-primary'} size="sm" className="me-2" onClick={() => setIsLogin(true)}>Iniciar Sesión</Button>
-            <Button variant={!isLogin ? 'primary' : 'outline-primary'} size="sm" onClick={() => setIsLogin(false)}>Registrarse</Button>
-          </div>
-          <Form onSubmit={handleAuth}>
-            {!isLogin && (
-              <Form.Group className="mb-3">
-                <Form.Label>Nombre</Form.Label>
-
-                <Form.Control name="nombre" type="text" placeholder="Tu nombre" required />
-
-              </Form.Group>
-            )}
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-
-              <Form.Control name="email" type="email" placeholder="ejemplo@correo.com" required />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Contraseña</Form.Label>
-              <Form.Control name="password" type="password" placeholder="Tu contraseña" required />
-
-            </Form.Group>
-            <Button variant="primary" type="submit" className="w-100">
-              {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
+            <Button
+              variant={isLogin ? 'primary' : 'outline-primary'}
+              size="sm"
+              className="me-2"
+              onClick={() => setIsLogin(true)}
+            >
+              Iniciar Sesión
             </Button>
-          </Form>
+            <Button
+              variant={!isLogin ? 'primary' : 'outline-primary'}
+              size="sm"
+              onClick={() => setIsLogin(false)}
+            >
+              Registrarse
+            </Button>
+          </div>
+          {isLogin ? <LoginForm onSuccess={handleClose} /> : <RegisterForm onSuccess={handleClose} />}
         </Modal.Body>
       </Modal>
     </header>
   );
 };
 
-
 export default Header;
-

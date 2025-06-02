@@ -40,7 +40,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 w-100">
       <h2>Carrito de compras</h2>
 
       <table className="table table-hover mt-4">

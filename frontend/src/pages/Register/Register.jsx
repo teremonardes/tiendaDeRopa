@@ -1,41 +1,38 @@
-import React, { useState } from 'react';
+import { useContext } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { userContext } from '../../components/Context/userContext'
 
-const Register = () => {
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [usuarios, setUsuarios] = useState([]);
+const RegisterForm = ({ onSuccess }) => {
+  const { registra } = useContext(userContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const nuevoUsuario = { nombre, email, password };
-    setUsuarios([...usuarios, nuevoUsuario]);
-    alert('Registro exitoso!');
-    setNombre('');
-    setEmail('');
-    setPassword('');
+    const nombre = e.target.nombre.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    registra(email, password, nombre);
+    onSuccess();
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Registro de Usuario</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label>Nombre</label>
-          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} className="form-control" required />
-        </div>
-        <div className="mb-3">
-          <label>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" required />
-        </div>
-        <div className="mb-3">
-          <label>Contraseña</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" required />
-        </div>
-        <button type="submit" className="btn btn-primary w-100">Registrarse</button>
-      </form>
-    </div>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Nombre</Form.Label>
+        <Form.Control name="nombre" type="text" required />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Email</Form.Label>
+        <Form.Control name="email" type="email" required />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Contraseña</Form.Label>
+        <Form.Control name="password" type="password" required />
+      </Form.Group>
+      <Button type="submit" className="w-100">Registrarse</Button>
+    </Form>
   );
 };
 
-export default Register;
+export default RegisterForm;
