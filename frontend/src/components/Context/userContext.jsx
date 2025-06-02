@@ -6,7 +6,7 @@ export const userContext = createContext();
 const UserProvider = ({ children }) => {
   const [token, setToken] = useState(() => {
     const savedToken = localStorage.getItem("token");
-    return savedToken ? JSON.parse(savedToken) : null;
+    return savedToken ? (savedToken) : null;
   });
 
   const login = async (email, password) => {

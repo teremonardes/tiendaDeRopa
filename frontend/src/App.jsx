@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import ProductProvider from './components/Context/fetchContext'
 
 import NavbarT from './components/Navbar/Navbar'
@@ -13,6 +13,8 @@ import Galeria from './pages/Gallery/Gallery'
 import Checkout from './pages/CheckOut/Checkout'
 import UserProvider from './components/Context/userContext'
 import CreateProduct from './pages/CreateProduct/CreateProduct.jsx';
+import ProductDetail from './pages/Product/Product.jsx'
+import { CartProvider } from './components/Context/cartContext.jsx'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -23,6 +25,8 @@ function App() {
 
        <BrowserRouter>
     <UserProvider>
+      <CartProvider>
+      
       <ProductProvider>
         <Header />
         <NavbarT />
@@ -34,11 +38,13 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/gallery" element={<Galeria />} />
           <Route path="/:type" element={<Galeria />} />
+          <Route path="/:type/:id" element={<ProductDetail />} />
           <Route path="/create-product" element={<CreateProduct />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </ProductProvider>
+      </CartProvider>
     </UserProvider>
  </BrowserRouter>
 
