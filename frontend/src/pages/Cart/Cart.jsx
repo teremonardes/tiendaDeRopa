@@ -4,7 +4,13 @@ import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
-  const { cart, removeFromCart, clearCart } = useContext(CartContext)
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    decreaseQuantity
+  } = useContext(CartContext)
   const navigate = useNavigate()
 
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -52,7 +58,30 @@ const Cart = () => {
             <tr key={item.id}>
               <td>{item.title}</td>
               <td>${item.price}</td>
-              <td>{item.quantity}</td>
+              <td>
+                <div className="d-flex align-items-center gap-2">
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    onClick={() => decreaseQuantity(item.id)}
+                  >
+                    −
+                  </button>
+                  <span>{item.quantity}</span>
+                 
+                  <button
+                    className="btn btn-sm btn-outline-secondary"
+                    onClick={() =>
+                      addToCart({
+                        id: item.id,
+                        title: item.title,
+                        price: item.price
+                      })
+                    }
+                  >
+                    +
+                  </button>
+                </div>
+              </td>
               <td>${item.price * item.quantity}</td>
               <td>
                 <button
