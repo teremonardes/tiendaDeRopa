@@ -3,10 +3,13 @@ import { Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useState, useContext } from 'react';
-import { userContext } from '../Context/userContext'
+
+import { userContext } from '../Context/userContext';
+import { CartContext } from '../Context/cartContext'; // 👈 importamos el contexto del carrito
 
 const CardProduct = ({ id, title, price, image, description, type, is_favorite }) => {
   const { token } = useContext(userContext);
+  const { addToCart } = useContext(CartContext); // 👈 accedemos a addToCart
   const [isFavorite, setIsFavorite] = useState(is_favorite);
 
   const toggleFavorite = () => {
@@ -16,7 +19,6 @@ const CardProduct = ({ id, title, price, image, description, type, is_favorite }
     }
 
     setIsFavorite((prev) => !prev);
-
   };
 
   return (
@@ -37,7 +39,14 @@ const CardProduct = ({ id, title, price, image, description, type, is_favorite }
           <NavLink to={`/${type}/${id}`}>
             <Button style={{ backgroundColor: '#617891' }}>Ver más</Button>
           </NavLink>
-          {/* <Button variant='dark' onClick={() => onAddToCart(id, name, price)}>Añadir 🛒</Button> */}
+
+          {/* ✅ Botón funcional para agregar al carrito */}
+          <Button
+            variant='dark'
+            onClick={() => addToCart({ id, title, price, quantity: 1 })}
+          >
+            Añadir 🛒
+          </Button>
         </div>
       </Card.Body>
     </Card>

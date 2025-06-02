@@ -1,10 +1,29 @@
 import React, { useContext } from 'react'
 import { CartContext } from '../../components/Context/cartContext'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const Cart = () => {
-  const { cart, removeFromCart } = useContext(CartContext)
+  const { cart, removeFromCart, clearCart } = useContext(CartContext)
+  const navigate = useNavigate()
 
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
+
+  const handleClear = () => {
+    Swal.fire({
+      title: '¿Vaciar carrito?',
+      text: 'Se eliminarán todos los productos del carrito',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, vaciar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearCart()
+        Swal.fire('Listo', 'El carrito está vacío', 'success')
+      }
+    })
+  }
 
   if (cart.length === 0) {
     return (
@@ -50,6 +69,12 @@ const Cart = () => {
 
       <div className="text-end">
         <h4>Total: ${total}</h4>
+        <button className="btn btn-secondary me-2" onClick={handleClear}>
+          Vaciar carrito
+        </button>
+        <button className="btn btn-success" onClick={() => navigate('/checkout')}>
+          Finalizar compra
+        </button>
       </div>
     </div>
   )
