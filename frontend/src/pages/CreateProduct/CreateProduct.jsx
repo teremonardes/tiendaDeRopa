@@ -54,7 +54,7 @@ const CreateProduct = () => {
             required
           ></textarea>
         </div>
-        <button type="submit" className="btn custom-btn w-100">
+        <button type="submit" className="btn btn-secondary m-5" style={{ backgroundColor: '#50657c'}}>
           Crear Producto
         </button>
       </form>

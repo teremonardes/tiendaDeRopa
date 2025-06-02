@@ -7,7 +7,7 @@ import { useState, useContext } from 'react';
 import { userContext } from '../Context/userContext';
 import { CartContext } from '../Context/cartContext'; 
 
-const CardProduct = ({ id, title, price, image, description, type, is_favorite }) => {
+const CardProduct = ({ id, title, price, image, description, type, is_favorite,modoEdicion = false }) => {
   const { token } = useContext(userContext);
   const { addToCart } = useContext(CartContext); 
   const [isFavorite, setIsFavorite] = useState(is_favorite);
@@ -40,12 +40,20 @@ const CardProduct = ({ id, title, price, image, description, type, is_favorite }
             <Button style={{ backgroundColor: '#617891' }}>Ver más</Button>
           </NavLink>
 
-          <Button
-            variant='dark'
-            onClick={() => addToCart({ id, title, price, quantity: 1 })}
-          >
-            Añadir 🛒
-          </Button>
+    {
+  modoEdicion ? (
+    <NavLink to={`/editar-producto/${id}`}>
+      <Button variant='warning'>Editar</Button>
+    </NavLink>
+  ) : (
+    <Button
+      variant='dark'
+      onClick={() => addToCart({ id, title, price, quantity: 1 })}
+    >
+      Añadir 🛒
+    </Button>
+  )
+}
         </div>
       </Card.Body>
     </Card>
