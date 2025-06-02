@@ -23,7 +23,7 @@ const CardProduct = ({ id, title, price, image, description, type, is_favorite,m
 
   return (
     <Card style={{ width: '18rem', backgroundColor: '#D4D0B9' }}>
-      <Card.Img variant='top' src={image} className='p-3' />
+      <Card.Img variant='top' src={image} className='p-3 img-fluid' style={{ height: '300px', objectFit: 'cover', width: '100%' }} />
       <Card.Body>
         <Card.Title className='d-flex justify-content-between align-items-center'>
           {title}
@@ -33,7 +33,7 @@ const CardProduct = ({ id, title, price, image, description, type, is_favorite,m
         </Card.Title>
         <div className='texto'>
           <div className='precio'>${price}</div>
-          <div className='descripcion'>{description}</div>
+          <div className='descripcion' style={{height:'80px'}}>{description}</div>
         </div>
         <div className='botones d-flex justify-content-between'>
           <NavLink to={`/${type}/${id}`}>
