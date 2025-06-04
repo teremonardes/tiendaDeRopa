@@ -1,4 +1,48 @@
 CREATE DATABASE mitienda
+
+CREATE TABLE inventario (
+  id_product SERIAL PRIMARY KEY,
+  product VARCHAR(100) NOT NULL,
+  description text,
+  price INTEGER NOT NULL,
+  image TEXT,
+  stock INTEGER NOT NULL,
+  type VARCHAR(50),
+  is_favorite BOOLEAN DEFAULT false,
+  userid INTEGER
+);
+
+CREATE TABLE usuario (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  mail VARCHAR(100) UNIQUE NOT NULL,
+  pass TEXT NOT NULL,
+  telefono VARCHAR(20),
+  direccion TEXT
+);
+
+ALTER TABLE inventario
+ADD CONSTRAINT fk_usuario
+FOREIGN KEY (userid)
+REFERENCES usuario(id)
+ON DELETE SET NULL;
+
+CREATE TABLE carrito (
+  id SERIAL PRIMARY KEY,
+  userid INTEGER REFERENCES usuario(id) ON DELETE CASCADE,
+  productid INTEGER REFERENCES inventario(id_product) ON DELETE CASCADE,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status TEXT DEFAULT 'pendiente'
+);
+
+
+
+
+
+-----------------------------------------------------------------------------------------
+CREATE DATABASE mitienda
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
@@ -43,7 +87,7 @@ ALTER TABLE IF EXISTS public.carrito
 CREATE TABLE public.inventario
 (
     id_producto serial NOT NULL,
-    producto integer ,
+    producto text ,
     descripcion_producto character varying(50),
     imagen_producto text,
     precio integer,
@@ -68,6 +112,8 @@ CREATE TABLE public.usuario
     telefono integer,
     PRIMARY KEY (id_usuario)
 );
+
+
 
 ALTER TABLE IF EXISTS public.usuario
     OWNER to postgres;
