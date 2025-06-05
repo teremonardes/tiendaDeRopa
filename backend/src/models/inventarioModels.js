@@ -7,6 +7,7 @@ export const obtenerInventario = async () => {
   return response.rows
 }
 
+
 export const eliminarProductoPorId = async (id) => {
  
   const query = 'DELETE FROM inventario WHERE id_product = $1 RETURNING *' 
@@ -15,4 +16,12 @@ export const eliminarProductoPorId = async (id) => {
   return response.rows[0]
 }
 
+
+
+export const getInventarioID = async (id_product) => {
+  const query = 'SELECT * FROM inventario WHERE id_product = $1'
+  const value = [id_product]
+  const response = await db.query(query, value)
+  return response.rows[0]
+}
 
