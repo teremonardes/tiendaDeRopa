@@ -1,6 +1,4 @@
-
-import { obtenerInventario, eliminarProductoPorId, getInventarioID  } from '../models/inventarioModels.js'
-
+import { obtenerInventario, eliminarProductoPorId, getInventarioID } from '../models/inventarioModels.js'
 
 export const getInventario = async (req, res) => {
   try {
@@ -11,7 +9,6 @@ export const getInventario = async (req, res) => {
     console.error('Error', error)
   }
 }
-
 
 export const deleteProducto = async (req, res) => {
   const { id } = req.params
@@ -24,6 +21,8 @@ export const deleteProducto = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar el producto' })
     console.error('Error', error)
+  }
+}
 
 export const getInventarioById = async (req, res) => {
   try {
@@ -32,6 +31,5 @@ export const getInventarioById = async (req, res) => {
     res.status(200).json(producto)
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener el inventario por ID' })
-
   }
 }

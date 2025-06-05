@@ -1,0 +1,66 @@
+{
+    "info": {
+        "_postman_id": "9657abc5-c04b-4e9b-b13e-aeced61f807c",
+        "name": "MITIENDA",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "http://localhost:5000/api/inventario",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:5000/api/inventario",
+                    "path": [
+                        "api",
+                        "inventario"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000"
+                }
+            }
+        },
+        {
+            "name": "http://localhost:5000/api/inventario/1",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:5000/api/inventario/1",
+                    "path": [
+                        "api",
+                        "inventario",
+                        "1"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000"
+                }
+            }
+        },
+        {
+            "name": "http://localhost:5000//products/1",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": "http://localhost:5000/api/products/1",
+                    "path": [
+                        "api",
+                        "products",
+                        "1"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000"
+                }
+            }
+        }
+    ]
+}
