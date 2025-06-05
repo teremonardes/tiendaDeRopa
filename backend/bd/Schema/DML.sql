@@ -9,3 +9,5 @@ VALUES ('Camisa', 'Camisa blanca', 20.5, 'https://cl-dam-resizer.ecomm.cencosud.
 como usar la tabla de carrito
 -- INSERT INTO carrito (userid, productid, quantity)
 -- VALUES (1, 3, 2);
+INSERT INTO carrito (userid, productid, quantity)
+VALUES (1, 1, 2);
