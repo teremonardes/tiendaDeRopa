@@ -1,4 +1,16 @@
-CREATE DATABASE mitienda
+DROP TABLE IF EXISTS carrito CASCADE;
+DROP TABLE IF EXISTS inventario CASCADE;
+DROP TABLE IF EXISTS usuario CASCADE;
+
+CREATE TABLE usuario (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  mail VARCHAR(100) UNIQUE NOT NULL,
+  pass TEXT NOT NULL,
+  telefono VARCHAR(20),
+  direccion TEXT
+);
 
 CREATE TABLE inventario (
   id_product SERIAL PRIMARY KEY,
@@ -10,16 +22,6 @@ CREATE TABLE inventario (
   type VARCHAR(50),
   is_favorite BOOLEAN DEFAULT false,
   userid INTEGER
-);
-
-CREATE TABLE usuario (
-  id SERIAL PRIMARY KEY,
-  nombre VARCHAR(50) NOT NULL,
-  apellido VARCHAR(50) NOT NULL,
-  mail VARCHAR(100) UNIQUE NOT NULL,
-  pass TEXT NOT NULL,
-  telefono VARCHAR(20),
-  direccion TEXT
 );
 
 ALTER TABLE inventario
@@ -37,109 +39,13 @@ CREATE TABLE carrito (
   status TEXT DEFAULT 'pendiente'
 );
 
+INSERT INTO usuario (nombre, apellido, mail, pass, telefono, direccion) VALUES
+('Admin', 'Principal', 'admin@example.com', '$2a$10$Q7eY/j.fQW/g1zC7sA4zIe/zC7sA4zIe/zC7sA4zIe/zC7sA4zIe', '912345678', 'Calle Falsa 123')
+ON CONFLICT (mail) DO NOTHING;
 
-
-
-
------------------------------------------------------------------------------------------
-CREATE DATABASE mitienda
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LOCALE_PROVIDER = 'libc'
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
-
-
-
-
-
-CREATE TABLE public.carrito
-(
-    id_carrito serial NOT NULL,
-    usuario integer,
-    producto integer,
-    cantidad integer,
-    total integer,
-    PRIMARY KEY (id_carrito)
-);
-
-ALTER TABLE IF EXISTS public.carrito
-    OWNER to postgres;
-
-ALTER TABLE IF EXISTS public.carrito
-    ADD CONSTRAINT "FK_usuario" FOREIGN KEY (usuario)
-    REFERENCES public.usuario (id_usuario) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-ALTER TABLE IF EXISTS public.carrito
-    ADD CONSTRAINT "FK_producto" FOREIGN KEY (producto)
-    REFERENCES public.inventario (id_producto) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-
-
-CREATE TABLE public.inventario
-(
-    id_producto serial NOT NULL,
-    producto text ,
-    descripcion_producto character varying(50),
-    imagen_producto text,
-    precio integer,
-    stock integer,
-    talla character varying(5),
-    PRIMARY KEY (id_producto)
-);
-
-ALTER TABLE IF EXISTS public.inventario
-    OWNER to postgres;
-
-
-
-CREATE TABLE public.usuario
-(
-    id_usuario serial NOT NULL,
-    nombre character varying(50),
-    apellidos character varying(50),
-    direccion character varying(60),
-    email character varying(20),
-    password character varying(25),
-    telefono integer,
-    PRIMARY KEY (id_usuario)
-);
-
-
-
-ALTER TABLE IF EXISTS public.usuario
-    OWNER to postgres;
-
-CREATE TABLE public.publicacion
-(
-    id_publicacion serial NOT NULL,
-    usuario integer,
-    productos integer,
-    estrellas integer,
-    PRIMARY KEY (id_publicacion)
-);
-
-ALTER TABLE IF EXISTS public.publicacion
-    OWNER to postgres;
-
-ALTER TABLE IF EXISTS public.publicacion
-    ADD CONSTRAINT fk_usuario FOREIGN KEY (usuario)
-    REFERENCES public.usuario (id_usuario) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
-
-ALTER TABLE IF EXISTS public.publicacion
-    ADD CONSTRAINT fk_producto FOREIGN KEY (productos)
-    REFERENCES public.inventario (id_producto) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+INSERT INTO inventario (product, description, price, image, stock, type, is_favorite, userid) VALUES
+('Camiseta Casual', 'Camiseta de algodon suave, varios colores.', 25, 'url_camiseta.jpg', 100, 'ropa', false, NULL),
+('Pantalon Vaquero', 'Vaquero clasico, slim fit.', 60, 'url_pantalon.jpg', 50, 'ropa', true, NULL),
+('Zapatillas Urbanas', 'Zapatillas comodas para el dia a dia.', 85, 'url_zapatillas.jpg', 30, 'calzado', false, NULL),
+('Sudadera con Capucha', 'Sudadera abrigada para invierno.', 45, 'url_sudadera.jpg', 70, 'ropa', false, NULL)
+ON CONFLICT (product) DO NOTHING;
