@@ -1,8 +1,13 @@
 import express from 'express'
-import { registrarUsuario } from '../src/controllers/usuariosControllers.js'
+import { getProfile, deleteUsuario } from '../src/controllers/usuariosControllers.js'
+import { verificarToken } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 
-router.post('/register', registrarUsuario)
+// Ver perfil autenticado
+router.get('/users/profile', verificarToken, getProfile)
+
+// Eliminar usuario
+router.delete('/users/:id', deleteUsuario)
 
 export default router
