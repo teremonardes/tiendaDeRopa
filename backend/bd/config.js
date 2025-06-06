@@ -20,4 +20,3 @@ export const obtenerDB = async () => {
 }
 
 export default db
-

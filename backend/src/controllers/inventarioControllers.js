@@ -1,4 +1,4 @@
-import { obtenerInventario, eliminarProductoPorId, getInventarioID } from '../models/inventarioModels.js'
+import { obtenerInventario, eliminarProductoPorId, getInventarioID, editarProducto, agregarProducto } from '../models/inventarioModels.js'
 
 export const getInventario = async (req, res) => {
   try {
@@ -31,5 +31,36 @@ export const getInventarioById = async (req, res) => {
     res.status(200).json(producto)
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener el inventario por ID' })
+  }
+}
+
+export const crearProducto = async (req, res) => {
+  try {
+    const { product, description, price, image, stock, type, is_favorite } = req.body
+    if (!product || !description || !price || !image || !stock || !type) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios' })
+    }
+    const nuevoProducto = await agregarProducto(product, description, price, image, stock, type, is_favorite)
+    res.status(201).json({ mensaje: 'Producto agregado correctamente', producto: nuevoProducto })
+  } catch (error) {
+    res.status(500).json({ error: 'Error al agregar el producto' })
+  }
+}
+
+export const editarProductoController = async (req, res) => {
+  try {
+    const { id_product } = req.params
+    const { product, description, price, image, stock, type, is_favorite } = req.body
+    if (!product || !description || !price || !image || !stock || !type) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios' })
+    }
+    const productoExistente = await getInventarioID(id_product)
+    if (!productoExistente) {
+      return res.status(404).json({ error: 'Producto no encontrado' })
+    }
+    const productoEditado = await editarProducto(id_product, product, description, price, image, stock, type, is_favorite)
+    res.status(200).json({ mensaje: 'Producto editado correctamente', producto: productoEditado })
+  } catch (error) {
+    res.status(500).json({ error: 'Error al editar el producto' })
   }
 }
