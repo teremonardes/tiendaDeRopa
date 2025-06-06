@@ -4,9 +4,7 @@ const { Pool } = pkg
 
 const db = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  },
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   allowExitOnIdle: true
 })
 
@@ -22,3 +20,4 @@ export const obtenerDB = async () => {
 }
 
 export default db
+
