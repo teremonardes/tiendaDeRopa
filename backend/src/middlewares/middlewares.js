@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken')
-require('dotenv').config()
+import jwt from 'jsonwebtoken'
+import 'dotenv/config.js'
 
-const authMiddleware = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
   const authorization = req.headers.authorization
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
@@ -18,5 +18,3 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ error: 'Token inválido o expirado' })
   }
 }
-
-module.exports = authMiddleware

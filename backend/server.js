@@ -4,7 +4,6 @@ import 'dotenv/config'
 import { obtenerDB } from './bd/config.js'
 
 import inventarioRoutes from './routes/inventarioRoutes.js'
-import authRoutes from './routes/authRoutes.js'
 import usuariosRoutes from './routes/usuariosRoutes.js' // 👈 nuevo
 
 const app = express()
@@ -15,7 +14,6 @@ app.use(express.json())
 
 // Rutas API
 app.use('/api', inventarioRoutes)
-app.use('/api', authRoutes)
 app.use('/api/users', usuariosRoutes) // 👈 nueva ruta base para usuarios
 
 // Conexión a la base de datos
