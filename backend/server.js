@@ -14,7 +14,7 @@ app.use(express.json())
 
 // Rutas API
 app.use('/api', inventarioRoutes)
-app.use('/api/users', usuariosRoutes) // 👈 nueva ruta base para usuarios
+app.use('/api', usuariosRoutes) // 👈 nueva ruta base para usuarios
 
 // Conexión a la base de datos
 obtenerDB()
