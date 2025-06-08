@@ -1,4 +1,4 @@
-import { obtenerInventario, eliminarProductoPorId, getInventarioID, editarProducto, agregarProducto } from '../models/inventarioModels.js'
+import { obtenerInventario, eliminarProductoPorId, getInventarioID,getInventariotype, editarProducto, agregarProducto } from '../models/inventarioModels.js'
 
 export const getInventario = async (req, res) => {
   try {
@@ -9,6 +9,16 @@ export const getInventario = async (req, res) => {
     console.error('Error', error)
   }
 }
+
+export const getInventariocat = async (req, res) => {
+  try {
+    const inventario = await getInventariotype();
+    res.status(200).json({ inventario });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener el inventario" });
+    console.error("Error", error);
+  }
+};
 
 export const deleteProducto = async (req, res) => {
   const { id } = req.params
