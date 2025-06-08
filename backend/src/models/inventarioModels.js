@@ -20,6 +20,13 @@ export const getInventarioID = async (id_product) => {
   return response.rows[0]
 }
 
+export const getInventariotype = async (type) => {
+  const query = "SELECT * FROM inventario WHERE type = $1";
+  const value = [type];
+  const response = await db.query(query, value);
+  return response.rows[0];
+};
+
 export const agregarProducto = async (product, description, price, image, stock, type, is_favorite) => {
   const query = 'INSERT INTO inventario (product, description, price, image, stock, type, is_favorite) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *'
   const values = [product, description, price, image, stock, type, is_favorite]

@@ -7,18 +7,11 @@ export const obtieneCarrito = async () => {
   return response.rows[0];
 };
 
-
-export const agregaCarrito = async (id, productid,userid,quantity,added_at,status,product,precio) => {
+export const obtieneCarritoid = async (userid) => {
   const query =
-      `insert into carrito (id, productid,userid,quantity,added_at,status,product,precio) 
-       values default, (select id_product from inventario);`
-  const response = await db.query(query);
+    `SELECT id, productid,userid,quantity,added_at,status,product,precio from  carrito where userid = $1 `;
+  const values = [userid];
+  const result = await pool.query(query, values);
   return response.rows[0];
 };
 
-export const borraCarrito = async (userId, productId) => {
-    const query = `DELETE FROM carrito WHERE userid = $1 AND productid = $2 RETURNING * `;
-    const values = [userId, productId];
-    const result = await pool.query(query, values);
-    return result.rowCount > 0;
-}
