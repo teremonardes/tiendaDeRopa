@@ -1,15 +1,12 @@
 import { Router } from 'express'
 
 import {
-    getCarrito,
-    getCarritoid   
-} from "../src/controllers/carritoControllers.js";
-// import { authMiddleware } from '../src/middlewares/middlewares.js'
+  getCarritoid
+} from '../src/controllers/carritoControllers.js'
+import { authMiddleware } from '../src/middlewares/middlewares.js'
 
 const router = Router()
 
-router.get('/cart', getCarrito)
-router.get('/cart/:userid',getCarritoid)
-
+router.get('/cart/:userid', authMiddleware, getCarritoid)
 
 export default router
