@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { getInventario, deleteProducto, getInventarioById, getInventariocat, editarProductoController, crearProducto, getInventarioUserController } from '../src/controllers/inventarioControllers.js'
-import { authMiddleware } from '../src/middlewares/middlewares.js'
+import { authMiddleware } from '../src/middlewares/tokenMiddlewares.js'
 
 const router = Router()
 
