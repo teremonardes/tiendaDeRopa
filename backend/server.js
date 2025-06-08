@@ -4,7 +4,7 @@ import 'dotenv/config'
 import { obtenerDB } from './bd/config.js'
 
 import inventarioRoutes from './routes/inventarioRoutes.js'
-import usuariosRoutes from './routes/usuariosRoutes.js' // 👈 nuevo
+import usuariosRoutes from './routes/usuariosRoutes.js' 
 
 const app = express()
 const PORT = process.env.PORT || 3000

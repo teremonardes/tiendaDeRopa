@@ -1,9 +1,17 @@
 import db from '../../bd/config.js'
 import jwt from 'jsonwebtoken'
-import { registroUsuario, obtenerUsuarioPorEmail, eliminarUsuario, obtenerUsuarioPorId } from '../models/usuarioModels.js'
-import 'dotenv/config.js'
 import bcrypt from 'bcrypt'
+import {
+  registroUsuario,
+  obtenerUsuarioPorEmail,
+  obtenerUsuarioPorId,
+  eliminarUsuario
+} from '../models/usuarioModels.js'
+import 'dotenv/config.js'
 
+const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_jwt_segura'
+
+// Registrar nuevo usuario
 export const registrarUsuario = async (req, res) => {
   const { nombre, apellido, mail, pass, telefono, direccion } = req.body
 
@@ -12,14 +20,21 @@ export const registrarUsuario = async (req, res) => {
   }
 
   try {
-    // ¿El usuario ya existe?
     const existe = await obtenerUsuarioPorEmail(mail)
-
     if (existe) {
       return res.status(409).json({ error: 'Este correo ya está registrado' })
     }
 
-    const result = await registroUsuario({ nombre, apellido, mail, pass, telefono, direccion })
+    const hashedPassword = bcrypt.hashSync(pass, 10)
+
+    const result = await registroUsuario({
+      nombre,
+      apellido,
+      mail,
+      pass: hashedPassword,
+      telefono,
+      direccion
+    })
 
     res.status(201).json({
       message: 'Usuario registrado con éxito',
@@ -36,6 +51,7 @@ export const registrarUsuario = async (req, res) => {
   }
 }
 
+// Login
 export const loginUsuario = async (req, res) => {
   const { mail, pass } = req.body
 
@@ -48,31 +64,48 @@ export const loginUsuario = async (req, res) => {
     if (!usuario) {
       return res.status(401).json({ message: 'Credenciales inválidas.' })
     }
+
     const isPasswordValid = bcrypt.compareSync(pass, usuario.pass)
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Contraseña incorrecta.' })
     }
+
+    console.log('🔐 JWT_SECRET usado en login:', JWT_SECRET) // 👈 AÑADIDO
+
     const token = jwt.sign(
-      { userId: usuario.id, mail: usuario.mail },
-      process.env.JWT_SECRET,
+      {
+        userId: usuario.id,
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        mail: usuario.mail
+      },
+      JWT_SECRET,
       { expiresIn: '1h' }
     )
+
     res.status(200).json({ message: 'Login exitoso', token })
   } catch (error) {
     console.error('Error en el login:', error)
-    return res.status(500).json({ error: 'Error del servidor' })
+    res.status(500).json({ error: 'Error del servidor' })
   }
 }
 
+// Perfil de usuario autenticado
 export const getUserProfile = async (req, res) => {
   try {
-    const { nombre, apellido, mail } = req.user
+    const { userId } = req.user
+    const usuario = await obtenerUsuarioPorId(userId)
+
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' })
+    }
+
     res.status(200).json({
       message: 'Perfil de usuario',
       usuario: {
-        nombre,
-        apellido,
-        mail
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        mail: usuario.mail
       }
     })
   } catch (error) {
@@ -80,6 +113,7 @@ export const getUserProfile = async (req, res) => {
   }
 }
 
+// Eliminar usuario
 export const deleteUsuario = async (req, res) => {
   try {
     const { id } = req.params
@@ -88,8 +122,8 @@ export const deleteUsuario = async (req, res) => {
       return res.status(404).json({ error: 'Usuario no encontrado' })
     }
 
-    const result = await eliminarUsuario(id)
-    res.status(200).json({ message: 'Usuario eliminado con éxito', result })
+    await eliminarUsuario(id)
+    res.status(200).json({ message: 'Usuario eliminado con éxito' })
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar el usuario' })
   }
