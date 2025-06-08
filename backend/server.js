@@ -4,7 +4,8 @@ import 'dotenv/config'
 import { obtenerDB } from './bd/config.js'
 
 import inventarioRoutes from './routes/inventarioRoutes.js'
-import usuariosRoutes from './routes/usuariosRoutes.js' 
+import usuariosRoutes from './routes/usuariosRoutes.js'
+import carritoRoutes from './routes/carritoRoutes.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -14,7 +15,8 @@ app.use(express.json())
 
 // Rutas API
 app.use('/api', inventarioRoutes)
-app.use('/api', usuariosRoutes) // 👈 nueva ruta base para usuarios
+app.use('/api', usuariosRoutes)
+app.use('/api', carritoRoutes)
 
 // Conexión a la base de datos
 obtenerDB()

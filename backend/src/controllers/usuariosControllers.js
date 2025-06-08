@@ -1,4 +1,3 @@
-import db from '../../bd/config.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import {
@@ -8,8 +7,6 @@ import {
   eliminarUsuario
 } from '../models/usuarioModels.js'
 import 'dotenv/config.js'
-
-const JWT_SECRET = process.env.JWT_SECRET || 'mi_clave_jwt_segura'
 
 // Registrar nuevo usuario
 export const registrarUsuario = async (req, res) => {
@@ -25,16 +22,7 @@ export const registrarUsuario = async (req, res) => {
       return res.status(409).json({ error: 'Este correo ya está registrado' })
     }
 
-    const hashedPassword = bcrypt.hashSync(pass, 10)
-
-    const result = await registroUsuario({
-      nombre,
-      apellido,
-      mail,
-      pass: hashedPassword,
-      telefono,
-      direccion
-    })
+    const result = await registroUsuario({ nombre, apellido, mail, pass, telefono, direccion })
 
     res.status(201).json({
       message: 'Usuario registrado con éxito',
@@ -70,8 +58,6 @@ export const loginUsuario = async (req, res) => {
       return res.status(401).json({ message: 'Contraseña incorrecta.' })
     }
 
-    console.log('🔐 JWT_SECRET usado en login:', JWT_SECRET) // 👈 AÑADIDO
-
     const token = jwt.sign(
       {
         userId: usuario.id,
@@ -79,7 +65,7 @@ export const loginUsuario = async (req, res) => {
         apellido: usuario.apellido,
         mail: usuario.mail
       },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: '1h' }
     )
 
