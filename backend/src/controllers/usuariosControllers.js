@@ -10,18 +10,8 @@ import 'dotenv/config.js'
 
 // Registrar nuevo usuario
 export const registrarUsuario = async (req, res) => {
-  const { nombre, apellido, mail, pass, telefono, direccion } = req.body
-
-  if (!nombre || !apellido || !mail || !pass) {
-    return res.status(400).json({ message: 'Faltan datos obligatorios.' })
-  }
-
   try {
-    const existe = await obtenerUsuarioPorEmail(mail)
-    if (existe) {
-      return res.status(409).json({ error: 'Este correo ya está registrado' })
-    }
-
+    const { nombre, apellido, mail, pass, telefono, direccion } = req.body
     const result = await registroUsuario({ nombre, apellido, mail, pass, telefono, direccion })
 
     res.status(201).json({
