@@ -3,7 +3,8 @@ import { obtenerInventario, eliminarProductoPorId, getInventarioID, getInventari
 export const getInventario = async (req, res) => {
   try {
     const inventario = await obtenerInventario()
-    res.status(200).json({ inventario })
+    const inventarioArray = Array.isArray(inventario) ? inventario : [inventario]
+    res.status(200).json({ inventario: inventarioArray })
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener el inventario' })
     console.error('Error', error)
@@ -54,6 +55,9 @@ export const getInventarioById = async (req, res) => {
   try {
     const { id_product } = req.params
     const producto = await getInventarioID(id_product)
+    if (!producto) {
+      return res.status(404).json({ error: 'Producto no encontrado' })
+    }
     res.status(200).json(producto)
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener el inventario por ID' })
