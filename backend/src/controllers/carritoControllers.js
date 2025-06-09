@@ -2,6 +2,7 @@ import {
   obtieneCarritoid,
   agregarProductoAlCarrito,
   actualizarCantidadCarrito
+  , vaciarCarrito
 } from '../models/carritoModels.js'
 
 export const getCarritoid = async (req, res) => {
@@ -58,8 +59,6 @@ export const putCarrito = async (req, res) => {
     res.status(500).json({ error: 'Error al actualizar la cantidad del producto' })
   }
 }
-
-import { vaciarCarrito } from '../models/carritoModels.js'
 
 export const deleteCarrito = async (req, res) => {
   try {
