@@ -94,6 +94,9 @@ export const deleteUsuario = async (req, res) => {
   try {
     const { id } = req.params
     const usuario = await obtenerUsuarioPorId(id)
+    if (parseInt(id) !== req.user.userId) {
+      return res.status(403).json({ error: 'No tienes permisos para eliminar este usuario' })
+    }
     if (!usuario) {
       return res.status(404).json({ error: 'Usuario no encontrado' })
     }

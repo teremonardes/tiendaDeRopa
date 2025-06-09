@@ -6,8 +6,6 @@ import { obtenerDB } from './bd/config.js'
 import inventarioRoutes from './routes/inventarioRoutes.js'
 import usuariosRoutes from './routes/usuariosRoutes.js'
 import carritoRoutes from './routes/carritoRoutes.js'
-import authRoutes from './routes/authRoutes.js'
-
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -19,8 +17,6 @@ app.use(express.json())
 app.use('/api', inventarioRoutes)
 app.use('/api', usuariosRoutes)
 app.use('/api', carritoRoutes)
-app.use('/api/auth', authRoutes)
-
 
 // Conexión a la base de datos
 obtenerDB()

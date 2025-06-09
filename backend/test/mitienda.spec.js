@@ -1,6 +1,5 @@
 import request from 'supertest'
 import app from '../server.js'
-import { faker } from '@faker-js/faker'
 import { generateToken } from './login.js'
 
 describe('CRUD operations for inventory items', () => {

@@ -2,9 +2,23 @@ import db from '../../bd/config.js'
 
 export const obtieneCarritoid = async (userid) => {
   const query = `
-    SELECT id, productid, userid, quantity, added_at, status, product, precio 
-    FROM carrito 
-    WHERE userid = $1`
+    SELECT 
+      c.id AS carrito_id,
+      c.productid,
+      c.userid,
+      c.quantity,
+      c.added_at,
+      c.status,
+      p.product,
+      p.description,
+      p.price,
+      p.image,
+      p.type,
+      p.is_favorite
+    FROM carrito c
+    JOIN inventario p ON c.productid = p.id_product
+    WHERE c.userid = $1
+  `
   const values = [userid]
   const response = await db.query(query, values)
   return response.rows
@@ -48,4 +62,3 @@ export const vaciarCarrito = async (userid) => {
   const result = await db.query(query, values)
   return result.rows
 }
-
