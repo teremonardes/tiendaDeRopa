@@ -81,7 +81,9 @@ export const getUserProfile = async (req, res) => {
       usuario: {
         nombre: usuario.nombre,
         apellido: usuario.apellido,
-        mail: usuario.mail
+        mail: usuario.mail,
+        telefono: usuario.telefono,
+        direccion: usuario.direccion
       }
     })
   } catch (error) {
