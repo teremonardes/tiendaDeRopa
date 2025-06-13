@@ -1,136 +1,79 @@
-import { createContext, useState } from "react";
-import { Alertas } from "../../Utilidades/validaUsers";
+import { createContext, useState } from 'react'
+import { Alertas } from '../../Utilidades/validaUsers'
+import axios from 'axios'
+import { URLBASE } from '../../config/constants.js'
 
-export const userContext = createContext();
+export const userContext = createContext()
 
 const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    return JSON.parse(localStorage.getItem('user')) || null
+  })
   const [token, setToken] = useState(() => {
-    return JSON.parse(localStorage.getItem("token")) || null;
-  });
+    return localStorage.getItem('token') || null
+  })
 
-const [user, setUser] = useState(() => {
-  return JSON.parse(localStorage.getItem("user")) || null;
-});
-
-  const login = (email, password) => {
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const existingUser = storedUsers.find(u => u.email === email && u.password === password);
-
-    if (existingUser) {
-      const fakeToken = `${email}-token`;
-      setToken(fakeToken);
-       setUser(existingUser);
-      localStorage.setItem("token", JSON.stringify(fakeToken));
-      localStorage.setItem("user", JSON.stringify(existingUser));
-      Alertas("Inicio de sesión exitoso.");
-    } else {
-      Alertas("Credenciales incorrectas.");
+  const registra = async ({ nombre, apellido, mail, pass, telefono, direccion }) => {
+    try {
+      const { data } = await axios.post(`${URLBASE}/users/register`, {
+        nombre, apellido, mail, pass, telefono, direccion
+      })
+      setUser(data.usuario)
+      localStorage.setItem('user', JSON.stringify(data.usuario))
+      Alertas(data.message || 'Registro exitoso')
+    } catch (error) {
+      console.error('Error al registrar:', error)
+      Alertas(error.response?.data?.error || 'Error del servidor')
     }
-  };
+  }
 
-  const registra = (email, password, nombre) => {
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const existingUser = storedUsers.find(u => u.email === email);
-
-    if (existingUser) {
-      Alertas("Ese email ya está registrado.");
-      return;
+  // Login
+  const login = async (mail, pass) => {
+    try {
+      const { data } = await axios.post(`${URLBASE}/users/login`, { mail, pass })
+      setToken(data.token)
+      localStorage.setItem('token', data.token)
+      await getProfile(data.token)
+      Alertas(data.message || 'Login exitoso')
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error)
+      Alertas(error.response?.data?.message || 'Error del servidor')
     }
+  }
 
-    const newUser = { email, password, nombre };
-    const updatedUsers = [...storedUsers, newUser];
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-
-    const fakeToken = `${email}-token`;
-    setToken(fakeToken);
-    setUser(newUser);
-    localStorage.setItem("token", JSON.stringify(fakeToken));
-    localStorage.setItem("user", JSON.stringify(newUser));
-    Alertas("Registro exitoso.");
-  };
+  // Obtener perfil usando token
+  const getProfile = async (jwtToken = token) => {
+    if (!jwtToken) return
+    try {
+      const { data } = await axios.get(`${URLBASE}/users/profile`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`
+        }
+      })
+      setUser(data.usuario)
+      localStorage.setItem('user', JSON.stringify(data.usuario))
+    } catch (error) {
+      console.error('Error al obtener perfil:', error)
+      Alertas(error.response?.data?.error || 'Error al obtener perfil')
+    }
+  }
 
   const logout = () => {
-    setToken(null);
-      localStorage.removeItem("token");
-  setUser(null);
-    localStorage.removeItem("user");
-    Alertas("Sesión cerrada.");
-  };
+    setUser(null)
+    setToken(null)
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    Alertas('Sesión cerrada')
+  }
 
   return (
-    <userContext.Provider value={{ token, user, login, registra, logout }}>
+    <userContext.Provider value={{
+      user, token, login, registra, logout, getProfile
+    }}
+    >
       {children}
     </userContext.Provider>
-  );
-};
+  )
+}
 
-export default UserProvider;
-
-
-// export const userContext = createContext();
-
-// const UserProvider = ({ children }) => {
-//   const [token, setToken] = useState(() => {
-//     const savedToken = localStorage.getItem("token");
-//     return savedToken ? (savedToken) : null;
-//   });
-
-//   const login = async (email, password) => {
-//     try {
-//       const response = await fetch("http://localhost:5000/api/auth/login", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ email, password }),
-//       });
-
-//       if (!response.ok) throw new Error("Credenciales inválidas.");
-
-//       const data = await response.json();
-//       setToken(data.token);
-//       localStorage.setItem("token", JSON.stringify(data.token));
-//       Alertas("Inicio de sesión exitoso.");
-//     } catch ( error ) {
-//       Alertas("Error al iniciar sesión", error);
-//     }
-//   };
-
-//   const registra = async (email, password) => {
-//     try {
-//       const response = await fetch("http://localhost:5000/api/auth/register", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ email, password }),
-//       });
-
-//       if (!response.ok) throw new Error("Error al registrar usuario.");
-
-//       const data = await response.json();
-//       setToken(data.token);
-//       localStorage.setItem("token", JSON.stringify(data.token));
-//       localStorage.setItem("email", JSON.stringify(email));
-//       Alertas("Registro exitoso.");
-//     } catch (error) {
-//       Alertas("Error al registrar usuario", error);
-//     }
-//   };
-
-//   const logout = () => {
-//     setToken(null);
-//     localStorage.removeItem("token");
-//     Alertas("Sesión cerrada.");
-//   };
-
-//   useEffect(() => {
-//     if (token !== null) {
-//       localStorage.setItem("token", JSON.stringify(token));
-//     }
-//   }, [token]);
-
-//   return (
-//     <userContext.Provider value={{ token, login, registra, logout }}>
-//       {children}
-//     </userContext.Provider>
-//   );
-// };
-
-// export default UserProvider;
+export default UserProvider

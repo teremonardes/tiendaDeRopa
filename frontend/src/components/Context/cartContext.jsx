@@ -1,5 +1,7 @@
 import { createContext, useState } from 'react'
 export const CartContext = createContext()
+import axios from 'axios'
+import { URLBASE } from '../../config/constants.js'
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([])

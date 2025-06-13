@@ -3,7 +3,7 @@ import db from '../../bd/config.js'
 export const obtenerInventario = async () => {
   const query = 'SELECT id_product, product, description, price, image, stock, type, is_favorite, userid FROM inventario'
   const response = await db.query(query)
-  return response.rows[0]
+  return response.rows
 }
 
 export const eliminarProductoPorId = async (id) => {
