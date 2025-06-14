@@ -1,32 +1,37 @@
 import { useState, useContext } from 'react'
 import Swal from 'sweetalert2'
 import { userContext } from '../../components/Context/userContext'
-import { URLBASE } from '../../config/constants.js'
+import { URLBASE } from '../../config/constants'
 import './Createproduct.css'
 
 const CreateProduct = () => {
-  const [nombre, setNombre] = useState('')
-  const [precio, setPrecio] = useState('')
-  const [descripcion, setDescripcion] = useState('')
-  const [imagen, setImagen] = useState('')
-  const [type, setType] = useState('')
-
   const { token } = useContext(userContext)
+
+  const [product, setProduct] = useState('')
+  const [price, setPrice] = useState('')
+  const [description, setDescription] = useState('')
+  const [image, setImage] = useState('')
+  const [stock, setStock] = useState('')
+  const [type, setType] = useState('')
+  const [isFavorite, setIsFavorite] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const nuevoProducto = {
-      product: nombre,
-      price: Number(precio),
-      description: descripcion,
-      image: imagen,
-      type
+      product,
+      description,
+      price: Number(price),
+      image,
+      stock: Number(stock),
+      type,
+      is_favorite: isFavorite
     }
 
-    try {
-      console.log('Token:', token)
+    console.log('Body a enviar:', nuevoProducto)
+    console.log('Token a enviar:', token)
 
+    try {
       const response = await fetch(`${URLBASE}/inventario`, {
         method: 'POST',
         headers: {
@@ -36,25 +41,33 @@ const CreateProduct = () => {
         body: JSON.stringify(nuevoProducto)
       })
 
+      console.log('Status:', response.status)
+
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Error al crear el producto')
+        const errorText = await response.text()
+        console.error('Respuesta del server (error):', errorText)
+        throw new Error(`Error ${response.status}: ${errorText}`)
       }
+
+      const data = await response.json()
+      console.log('Respuesta exitosa:', data)
 
       Swal.fire({
         icon: 'success',
-        title: 'Producto creado correctamente',
-        timer: 2000,
-        showConfirmButton: false
+        title: 'Producto creado',
+        text: data.mensaje
       })
 
-      // Limpiar los campos
-      setNombre('')
-      setPrecio('')
-      setDescripcion('')
-      setImagen('')
+      setProduct('')
+      setPrice('')
+      setDescription('')
+      setImage('')
+      setStock('')
       setType('')
+      setIsFavorite(false)
+
     } catch (error) {
+      console.error('Error al enviar:', error)
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -72,8 +85,8 @@ const CreateProduct = () => {
           <input
             type='text'
             className='form-control'
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
             required
           />
         </div>
@@ -82,8 +95,8 @@ const CreateProduct = () => {
           <input
             type='number'
             className='form-control'
-            value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             required
           />
         </div>
@@ -91,18 +104,29 @@ const CreateProduct = () => {
           <label>Descripción</label>
           <textarea
             className='form-control'
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
           />
         </div>
         <div className='mb-3'>
-          <label>Imagen (URL)</label>
+          <label>URL de la Imagen</label>
           <input
-            type='text'
+            type='url'
             className='form-control'
-            value={imagen}
-            onChange={(e) => setImagen(e.target.value)}
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            required
+          />
+        </div>
+        <div className='mb-3'>
+          <label>Stock</label>
+          <input
+            type='number'
+            className='form-control'
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
+            required
           />
         </div>
         <div className='mb-3'>
@@ -112,7 +136,20 @@ const CreateProduct = () => {
             className='form-control'
             value={type}
             onChange={(e) => setType(e.target.value)}
+            required
           />
+        </div>
+        <div className='form-check mb-3'>
+          <input
+            className='form-check-input'
+            type='checkbox'
+            checked={isFavorite}
+            onChange={(e) => setIsFavorite(e.target.checked)}
+            id='favoriteCheck'
+          />
+          <label className='form-check-label' htmlFor='favoriteCheck'>
+            Marcar como favorito
+          </label>
         </div>
         <button type='submit' className='btn btn-secondary m-5' style={{ backgroundColor: '#50657c' }}>
           Crear Producto

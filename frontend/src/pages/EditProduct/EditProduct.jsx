@@ -1,85 +1,134 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import productosData from '../../../public/data/productos.json';
+import { useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Alertas } from '../../Utilidades/validaUsers'
+import { URLBASE } from '../../config/constants.js'
 
 const EditarProducto = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [producto, setProducto] = useState(null);
+  const { id_product } = useParams()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
-    title: '',
+    product: '',
     description: '',
     price: '',
     image: '',
-    quantity: '',
+    stock: '',
     type: '',
-  });
+    is_favorite: false
+  })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const productoExistente = productosData.find(p => p.id === parseInt(id));
-    if (productoExistente) {
-      setProducto(productoExistente);
-      setForm({ ...productoExistente });
-    } else {
-      Alertas('Producto no encontrado');
-      navigate('/mis-productos');
+    const fetchProducto = async () => {
+      try {
+        const token = localStorage.getItem('token')
+        const res = await fetch(`${URLBASE}/inventario/${id_product}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+
+        if (!res.ok) {
+          throw new Error('No se pudo obtener el producto')
+        }
+
+        const data = await res.json()
+        setForm(data)
+        setLoading(false)
+      } catch (error) {
+        Alertas(`Error: ${error.message}`)
+        navigate('/products/me')
+      }
     }
-  }, [id, navigate]);
+
+    fetchProducto()
+  }, [id_product, navigate])
 
   const handleChange = e => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
+    const { name, value, type, checked } = e.target
+    setForm(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }))
+  }
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    // No podemos guardar en JSON directamente, solo mostrar alerta o simular
-    console.log('Producto actualizado (simulado):', form);
-    Alertas('Producto actualizado (solo simulado, JSON no puede modificarse directamente)');
-    navigate('/mis-productos');
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem('token')
 
-  if (!producto) return <p>Cargando...</p>;
+    if (!token) {
+      Alertas('Debes iniciar sesión')
+      return
+    }
+
+    try {
+      const response = await fetch(`${URLBASE}/inventario/${id_product}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(form)
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Error al actualizar el producto')
+      }
+
+      Alertas('Producto actualizado exitosamente')
+      navigate('/products/me')
+    } catch (error) {
+      console.error('Error al actualizar producto:', error.message)
+      Alertas(error.message)
+    }
+  }
+  if (loading) return <p>Cargando...</p>
 
   return (
-    <div className="container mt-5">
+    <div className='container mt-5'>
       <h2>Editar producto</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Título</label>
-          <input type="text" name="title" className="form-control" value={form.title} onChange={handleChange} required />
+        <div className='form-group'>
+          <label>Nombre</label>
+          <input type='text' name='product' className='form-control' value={form.product} onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
+        <div className='form-group'>
           <label>Descripción</label>
-          <textarea name="description" className="form-control" value={form.description} onChange={handleChange} required />
+          <textarea name='description' className='form-control' value={form.description} onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
+        <div className='form-group'>
           <label>Precio</label>
-          <input type="number" name="price" className="form-control" value={form.price} onChange={handleChange} required />
+          <input type='number' name='price' className='form-control' value={form.price} onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
+        <div className='form-group'>
           <label>Imagen (URL)</label>
-          <input type="text" name="image" className="form-control" value={form.image} onChange={handleChange} required />
+          <input type='text' name='image' className='form-control' value={form.image} onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
-          <label>Cantidad</label>
-          <input type="number" name="quantity" className="form-control" value={form.quantity} onChange={handleChange} required />
+        <div className='form-group'>
+          <label>Stock</label>
+          <input type='number' name='stock' className='form-control' value={form.stock} onChange={handleChange} required />
         </div>
 
-        <div className="form-group">
+        <div className='form-group'>
           <label>Categoría</label>
-          <input type="text" name="type" className="form-control" value={form.type} onChange={handleChange} required />
+          <input type='text' name='type' className='form-control' value={form.type} onChange={handleChange} required />
         </div>
 
-        <button type="submit" className="btn btn-secondary m-5" style={{ backgroundColor: '#50657c'}}>Guardar Cambios</button>
+        <div className='form-group form-check'>
+          <input type='checkbox' name='is_favorite' className='form-check-input' checked={form.is_favorite} onChange={handleChange} />
+          <label className='form-check-label'>Favorito</label>
+        </div>
+
+        <button type='submit' className='btn btn-secondary m-5' style={{ backgroundColor: '#50657c' }}>
+          Guardar Cambios
+        </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default EditarProducto;
+export default EditarProducto
