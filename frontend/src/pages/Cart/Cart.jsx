@@ -33,24 +33,24 @@ const Cart = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="container mt-5 text-center">
+      <div className='container mt-5 text-center'>
         <h2>Tu carrito está vacío 🛒</h2>
       </div>
     )
   }
 
   return (
-    <div className="container mt-5 w-100">
+    <div className='container mt-5 w-100'>
       <h2>Carrito de compras</h2>
 
-      <table className="table table-hover mt-4">
-        <thead className="table-light">
+      <table className='table table-hover mt-4'>
+        <thead className='table-light'>
           <tr>
             <th>Producto</th>
             <th>Precio</th>
             <th>Cantidad</th>
             <th>Subtotal</th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>
@@ -59,24 +59,23 @@ const Cart = () => {
               <td>{item.title}</td>
               <td>${item.price}</td>
               <td>
-                <div className="d-flex align-items-center gap-2">
+                <div className='d-flex align-items-center gap-2'>
                   <button
-                    className="btn btn-sm btn-outline-secondary"
+                    className='btn btn-sm btn-outline-secondary'
                     onClick={() => decreaseQuantity(item.id)}
                   >
                     −
                   </button>
                   <span>{item.quantity}</span>
-                 
+
                   <button
-                    className="btn btn-sm btn-outline-secondary"
+                    className='btn btn-sm btn-outline-secondary'
                     onClick={() =>
                       addToCart({
                         id: item.id,
                         title: item.title,
                         price: item.price
-                      })
-                    }
+                      })}
                   >
                     +
                   </button>
@@ -85,7 +84,7 @@ const Cart = () => {
               <td>${item.price * item.quantity}</td>
               <td>
                 <button
-                  className="btn btn-sm btn-danger"
+                  className='btn btn-sm btn-danger'
                   onClick={() => removeFromCart(item.id)}
                 >
                   Quitar
@@ -96,12 +95,12 @@ const Cart = () => {
         </tbody>
       </table>
 
-      <div className="text-end">
+      <div className='text-end'>
         <h4>Total: ${total}</h4>
-        <button className="btn btn-secondary me-2" onClick={handleClear}>
+        <button className='btn btn-secondary me-2' onClick={handleClear}>
           Vaciar carrito
         </button>
-        <button className="btn btn-success" onClick={() => navigate('/checkout')}>
+        <button className='btn btn-success' onClick={() => navigate('/checkout')}>
           Finalizar compra
         </button>
       </div>

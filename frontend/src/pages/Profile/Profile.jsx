@@ -40,10 +40,11 @@ const Profile = () => {
         <p><strong>Apellido:</strong> {usuario.apellido || 'Usuario'}</p>
         <p><strong>Email:</strong> {usuario.mail}</p>
         <p><strong>Teléfono:</strong> {usuario.telefono}</p>
-        <button className='btn btn-light mt-3' onClick={() => navigate('/mis-productos')}>
+        <p><strong>Dirección:</strong> {usuario.direccion}</p>
+        <button className='btn btn-light mt-3' onClick={() => navigate('/products/me')}>
           Ir a mis productos
         </button>
-        <button className='btn btn-light mt-3' style={{ backgroundColor: '#AC7377' }} onClick={handleLogout}>
+        <button className='btn btn-light my-3' style={{ backgroundColor: '#AC7377' }} onClick={handleLogout}>
           Cerrar Sesión
         </button>
       </div>

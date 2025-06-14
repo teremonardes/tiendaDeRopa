@@ -24,27 +24,41 @@ import './App.css'
 
 function App () {
   return (
-
     <BrowserRouter>
       <UserProvider>
         <CartProvider>
-
           <ProductProvider>
             <Header />
             <NavbarT />
             <Routes>
+              {/* Página de inicio */}
               <Route path='/' element={<Home />} />
-              <Route path='/cart' element={<Cart />} />
+
+              {/* Carrito y checkout */}
+              <Route path='/cart/:userid' element={<Cart />} />
               <Route path='/checkout' element={<Checkout />} />
+
+              {/* Registro y perfil */}
               <Route path='/register' element={<Register />} />
               <Route path='/profile' element={<Profile />} />
-              <Route path='/gallery' element={<Galeria />} />
-              <Route path='/:type' element={<Galeria />} />
-              <Route path='/:type/:id' element={<ProductDetail />} />
-              <Route path='/mis-productos' element={<MisProductos />} />
-              <Route path='/editar-producto/:id' element={<EditarProducto />} />
 
+              {/* Galerías */}
+              <Route path='/inventario' element={<Galeria />} />
+              <Route path='category/:type' element={<Galeria />} />
+
+              {/* Detalle de producto */}
+              <Route path='/inventario/:id_product' element={<ProductDetail />} />
+
+              {/* Productos del usuario */}
+              <Route path='/products/me' element={<MisProductos />} />
+
+              {/* Editar producto (unificamos el param a :id_product) */}
+              <Route path='/products/:id_product' element={<EditarProducto />} />
+
+              {/* Crear producto */}
               <Route path='/create-product' element={<CreateProduct />} />
+
+              {/* Página 404 */}
               <Route path='*' element={<NotFound />} />
             </Routes>
             <Footer />
@@ -52,7 +66,6 @@ function App () {
         </CartProvider>
       </UserProvider>
     </BrowserRouter>
-
   )
 }
 
