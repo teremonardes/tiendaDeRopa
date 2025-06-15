@@ -55,14 +55,14 @@ const Cart = () => {
         </thead>
         <tbody>
           {cart.map((item) => (
-            <tr key={item.id}>
+            <tr key={item.productid}>
               <td>{item.title}</td>
               <td>${item.price}</td>
               <td>
                 <div className='d-flex align-items-center gap-2'>
                   <button
                     className='btn btn-sm btn-outline-secondary'
-                    onClick={() => decreaseQuantity(item.id)}
+                    onClick={() => decreaseQuantity(item)}
                   >
                     −
                   </button>
@@ -72,7 +72,7 @@ const Cart = () => {
                     className='btn btn-sm btn-outline-secondary'
                     onClick={() =>
                       addToCart({
-                        id: item.id,
+                        id: item.productid,
                         title: item.title,
                         price: item.price
                       })}
@@ -85,7 +85,7 @@ const Cart = () => {
               <td>
                 <button
                   className='btn btn-sm btn-danger'
-                  onClick={() => removeFromCart(item.id)}
+                  onClick={() => removeFromCart(item)}
                 >
                   Quitar
                 </button>
