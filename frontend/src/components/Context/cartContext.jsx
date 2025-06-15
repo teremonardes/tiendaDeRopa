@@ -6,40 +6,45 @@ export const CartContext = createContext()
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([])
-  const token = localStorage.getItem('token')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  const axiosConfig = {
-    headers: {
-      Authorization: `Bearer ${token}`
+  const api = axios.create({
+    baseURL: URLBASE
+  })
+
+  api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token') || ''
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
-  }
+    return config
+  })
 
   const fetchCart = async () => {
+    setLoading(true)
     try {
-      const response = await axios.get(`${URLBASE}/cart`, axiosConfig)
-      setCart(response.data.carrito)
-    } catch (error) {
-      console.error('❌ Error al cargar el carrito:', error)
+      const { data } = await api.get('/cart')
+      setCart(data.carrito)
+      setError(null)
+    } catch (err) {
+      console.error('❌ Error al cargar el carrito:', err)
+      setError(err.response?.data?.error || 'Error al cargar el carrito')
+    } finally {
+      setLoading(false)
     }
   }
 
-  useEffect(() => {
-    if (token) fetchCart()
-  }, [token])
-
-  const addToCart = async (product) => {
+  const addToCart = async (product, quantity = 1) => {
     try {
-      await axios.post(
-        `${URLBASE}/cart`,
-        {
-          productid: product.productid,
-          quantity: 1
-        },
-        axiosConfig
-      )
-      fetchCart()
-    } catch (error) {
-      console.error('❌ Error al agregar al carrito:', error)
+      await api.post('/cart', {
+        productid: product.productid,
+        quantity
+      })
+      await fetchCart()
+    } catch (err) {
+      console.error('❌ Error al agregar al carrito:', err)
+      setError(err.response?.data?.error || 'Error al agregar al carrito')
     }
   }
 
@@ -48,49 +53,52 @@ export const CartProvider = ({ children }) => {
     if (!item || item.quantity <= 1) return
 
     try {
-      await axios.put(
-        `${URLBASE}/cart`,
-        {
-          productid: item.productid,
-          quantity: item.quantity - 1
-        },
-        axiosConfig
-      )
-      fetchCart()
-    } catch (error) {
-      console.error('❌ Error al disminuir cantidad:', error)
+      await api.put('/cart', {
+        productid: item.productid,
+        quantity: item.quantity - 1
+      })
+      await fetchCart()
+    } catch (err) {
+      console.error('❌ Error al disminuir cantidad:', err)
+      setError(err.response?.data?.error || 'Error al disminuir cantidad')
     }
   }
 
   const removeFromCart = async (product) => {
     try {
-      await axios.put(
-        `${URLBASE}/cart`,
-        {
-          productid: product.productid,
-          quantity: 0
-        },
-        axiosConfig
-      )
-      fetchCart()
-    } catch (error) {
-      console.error('❌ Error al eliminar producto:', error)
+      await api.put('/cart', {
+        productid: product.productid,
+        quantity: 0
+      })
+      await fetchCart()
+    } catch (err) {
+      console.error('❌ Error al eliminar producto:', err)
+      setError(err.response?.data?.error || 'Error al eliminar producto')
     }
   }
 
   const clearCart = async () => {
     try {
-      await axios.delete(`${URLBASE}/cart`, axiosConfig)
+      await api.delete('/cart')
       setCart([])
-    } catch (error) {
-      console.error('❌ Error al vaciar carrito:', error)
+    } catch (err) {
+      console.error('❌ Error al vaciar carrito:', err)
+      setError(err.response?.data?.error || 'Error al vaciar carrito')
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) fetchCart()
+  }, [])
 
   return (
     <CartContext.Provider
       value={{
         cart,
+        loading,
+        error,
+        fetchCart,
         addToCart,
         decreaseQuantity,
         removeFromCart,

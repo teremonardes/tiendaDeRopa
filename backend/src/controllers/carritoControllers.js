@@ -20,7 +20,6 @@ export const postCarrito = async (req, res) => {
   try {
     const { productid, quantity } = req.body
     const userid = req.user.userId
-
     if (!productid || !quantity || quantity <= 0) {
       return res.status(400).json({ error: 'Faltan datos o cantidad inválida' })
     }
