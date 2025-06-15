@@ -22,7 +22,7 @@ const Galeria = () => {
               productosAMostrar.map((product) => (
                 <div className='col-12 col-md-4 mb-4' key={product.id_product}>
                   <CardProduct
-                    id_product={product.id_product} // <-- así
+                    id_product={product.id_product}
                     product={product.product}
                     price={product.price}
                     description={product.description}

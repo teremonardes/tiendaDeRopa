@@ -49,11 +49,19 @@ export const agregarProductoAlCarrito = async ({ userid, productid, quantity }) 
 }
 
 export const actualizarCantidadCarrito = async ({ userid, productid, quantity }) => {
-  const result = await db.query(
-    'UPDATE carrito SET quantity = $1 WHERE userid = $2 AND productid = $3 RETURNING *',
-    [quantity, userid, productid]
-  )
-  return result.rows[0]
+  if (quantity === 0) {
+    const deleted = await db.query(
+      'DELETE FROM carrito WHERE userid = $1 AND productid = $2 RETURNING *',
+      [userid, productid]
+    )
+    return deleted.rows[0]
+  } else {
+    const updated = await db.query(
+      'UPDATE carrito SET quantity = $1 WHERE userid = $2 AND productid = $3 RETURNING *',
+      [quantity, userid, productid]
+    )
+    return updated.rows[0]
+  }
 }
 
 export const vaciarCarrito = async (userid) => {
