@@ -11,6 +11,7 @@ const Cart = () => {
     clearCart,
     decreaseQuantity
   } = useContext(CartContext)
+
   const navigate = useNavigate()
 
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -55,8 +56,8 @@ const Cart = () => {
         </thead>
         <tbody>
           {cart.map((item) => (
-            <tr key={item.productid}>
-              <td>{item.title}</td>
+            <tr key={item.id_product}>
+              <td>{item.product}</td>
               <td>${item.price}</td>
               <td>
                 <div className='d-flex align-items-center gap-2'>
@@ -66,19 +67,16 @@ const Cart = () => {
                   >
                     −
                   </button>
-                  <span>{item.quantity}</span>
 
+                  <span>{item.quantity}</span>
                   <button
                     className='btn btn-sm btn-outline-secondary'
-                    onClick={() =>
-                      addToCart({
-                        id: item.productid,
-                        title: item.title,
-                        price: item.price
-                      })}
+                    onClick={() => addToCart(item.productid, 1)}
+
                   >
                     +
                   </button>
+
                 </div>
               </td>
               <td>${item.price * item.quantity}</td>

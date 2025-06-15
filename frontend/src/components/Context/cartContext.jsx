@@ -9,16 +9,13 @@ export const CartProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const api = axios.create({
-    baseURL: URLBASE
-  })
+  const token = localStorage.getItem('token') || ''
 
-  api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token') || ''
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+  const api = axios.create({
+    baseURL: `${URLBASE}`,
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-    return config
   })
 
   const fetchCart = async () => {
@@ -35,21 +32,17 @@ export const CartProvider = ({ children }) => {
     }
   }
 
-  const addToCart = async (product, quantity = 1) => {
+  const addToCart = async (productid, quantity) => {
     try {
-      await api.post('/cart', {
-        productid: product.productid,
-        quantity
-      })
+      await api.post('/cart', { productid, quantity })
       await fetchCart()
     } catch (err) {
-      console.error('❌ Error al agregar al carrito:', err)
+      console.error('❌ Error al agregar al carrito:', err.response?.data || err.message)
       setError(err.response?.data?.error || 'Error al agregar al carrito')
     }
   }
 
-  const decreaseQuantity = async (product) => {
-    const item = cart.find((i) => i.productid === product.productid)
+  const decreaseQuantity = async (item) => {
     if (!item || item.quantity <= 1) return
 
     try {
@@ -59,20 +52,20 @@ export const CartProvider = ({ children }) => {
       })
       await fetchCart()
     } catch (err) {
-      console.error('❌ Error al disminuir cantidad:', err)
+      console.error('❌ Error al disminuir cantidad:', err.response?.data || err.message)
       setError(err.response?.data?.error || 'Error al disminuir cantidad')
     }
   }
 
-  const removeFromCart = async (product) => {
+  const removeFromCart = async (item) => {
     try {
       await api.put('/cart', {
-        productid: product.productid,
+        productid: item.productid,
         quantity: 0
       })
       await fetchCart()
     } catch (err) {
-      console.error('❌ Error al eliminar producto:', err)
+      console.error('❌ Error al eliminar producto:', err.response?.data || err.message)
       setError(err.response?.data?.error || 'Error al eliminar producto')
     }
   }

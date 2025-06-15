@@ -71,16 +71,24 @@ const CardProduct = ({ id_product, product, price, image, description, stock, ty
       })
     }
   }
-
-  const handleAddToCart = () => {
-    addToCart({ id_product, product, price, quantity: 1 })
-    Swal.fire({
-      icon: 'success',
-      title: '¡Producto agregado!',
-      text: `${product} se agregó al carrito`,
-      timer: 1500,
-      showConfirmButton: false
-    })
+  const handleAddToCart = async () => {
+    try {
+      await addToCart(id_product, 1)
+      Swal.fire({
+        icon: 'success',
+        title: '¡Producto agregado!',
+        text: `${product} se agregó al carrito`,
+        timer: 1500,
+        showConfirmButton: false
+      })
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo agregar al carrito',
+        error: err.message
+      })
+    }
   }
 
   const handleEdit = () => {

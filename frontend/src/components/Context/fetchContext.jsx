@@ -50,7 +50,6 @@ const ProductProvider = ({ children }) => {
   const fetchUserProducts = async () => {
     setLoading(true)
     try {
-    // Esto asume que tu backend usa el token y no requiere el id en la URL (mejor práctica)
       const { data } = await api.get('/products/me')
       setProducts(data.inventario)
       setError(null)
