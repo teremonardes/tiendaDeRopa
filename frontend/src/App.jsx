@@ -35,7 +35,7 @@ function App () {
               <Route path='/' element={<Home />} />
 
               {/* Carrito y checkout */}
-              <Route path='/cart/:userid' element={<Cart />} />
+              <Route path='/cart' element={<Cart />} />
               <Route path='/checkout' element={<Checkout />} />
 
               {/* Registro y perfil */}

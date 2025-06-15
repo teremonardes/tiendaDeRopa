@@ -1,16 +1,13 @@
 import {
   obtieneCarritoid,
   agregarProductoAlCarrito,
-  actualizarCantidadCarrito
-  , vaciarCarrito
+  actualizarCantidadCarrito,
+  vaciarCarrito
 } from '../models/carritoModels.js'
 
 export const getCarritoid = async (req, res) => {
   try {
-    const { userid } = req.params
-    if (parseInt(userid) !== req.user.userId) {
-      return res.status(403).json({ error: 'No tienes permisos para ver este carrito' })
-    }
+    const userid = req.userid
     const carrito = await obtieneCarritoid(userid)
     res.status(200).json({ carrito })
   } catch (error) {
@@ -41,14 +38,10 @@ export const postCarrito = async (req, res) => {
 
 export const putCarrito = async (req, res) => {
   try {
-    const { userid } = req.params
+    const userid = req.user.userId
     const { productid, quantity } = req.body
 
-    if (parseInt(userid) !== req.user.userId) {
-      return res.status(403).json({ error: 'No tienes permisos para modificar este carrito' })
-    }
-
-    if (!productid || !quantity || quantity < 0) {
+    if (!productid || quantity === undefined || quantity < 0) {
       return res.status(400).json({ error: 'Faltan datos o cantidad inválida' })
     }
 
@@ -62,12 +55,7 @@ export const putCarrito = async (req, res) => {
 
 export const deleteCarrito = async (req, res) => {
   try {
-    const { userid } = req.params
-
-    if (parseInt(userid) !== req.user.userId) {
-      return res.status(403).json({ error: 'No tienes permisos para vaciar este carrito' })
-    }
-
+    const userid = req.user.userId
     const resultado = await vaciarCarrito(userid)
 
     res.status(200).json({

@@ -10,9 +10,9 @@ import { authMiddleware } from '../src/middlewares/tokenMiddlewares.js'
 
 const router = Router()
 
-router.get('/cart/:userid', authMiddleware, getCarritoid)
+router.get('/cart', authMiddleware, getCarritoid)
 router.post('/cart', authMiddleware, postCarrito)
-router.put('/cart/:userid', authMiddleware, putCarrito)
-router.delete('/cart/:userid', authMiddleware, deleteCarrito)
+router.put('/cart', authMiddleware, putCarrito)
+router.delete('/cart', authMiddleware, deleteCarrito)
 
 export default router
