@@ -9,7 +9,7 @@ import { userContext } from '../Context/userContext'
 import { CartContext } from '../Context/cartContext'
 import { URLBASE } from '../../config/constants'
 
-const CardProduct = ({ id_product, product, price, image, description, is_favorite, modoEdicion }) => {
+const CardProduct = ({ id_product, product, price, image, description, stock, type, is_favorite, modoEdicion }) => {
   const { token } = useContext(userContext)
   const { addToCart } = useContext(CartContext)
   const [isFavorite, setIsFavorite] = useState(is_favorite)
@@ -35,8 +35,8 @@ const CardProduct = ({ id_product, product, price, image, description, is_favori
         description,
         price,
         image,
-        stock: 1, // puedes ajustar si tienes stock real
-        type: 'general', // o el tipo correcto si lo tienes disponible
+        stock,
+        type,
         is_favorite: updatedFavorite
       }
 
