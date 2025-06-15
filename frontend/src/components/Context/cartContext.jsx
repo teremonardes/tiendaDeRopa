@@ -32,7 +32,7 @@ export const CartProvider = ({ children }) => {
       await axios.post(
         `${URLBASE}/cart`,
         {
-          productid: product.id,
+          productid: product.productid,
           quantity: 1
         },
         axiosConfig

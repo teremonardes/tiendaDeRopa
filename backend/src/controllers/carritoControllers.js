@@ -7,7 +7,7 @@ import {
 
 export const getCarritoid = async (req, res) => {
   try {
-    const userid = req.userid
+    const userid = req.user.userId
     const carrito = await obtieneCarritoid(userid)
     res.status(200).json({ carrito })
   } catch (error) {
