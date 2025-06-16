@@ -16,18 +16,18 @@ const Galeria = () => {
       <h2 className='mb-4 text-capitalize'>
         {type ? `Categoría: ${type}` : 'Todos los productos'}
       </h2>
-      <div className='row'>
+      <div className='row g-5'>
         {productosAMostrar.length > 0
           ? (
               productosAMostrar.map((product) => (
-                <div className='col-12 col-md-4 mb-4' key={product.id_product}>
+                <div className='col-12 col-sm-6 col-md-4 mb-4' key={product.id_product}>
                   <CardProduct
                     id_product={product.id_product}
                     product={product.product}
                     price={product.price}
                     description={product.description}
                     image={product.image}
-                    stock ={product.stock}
+                    stock={product.stock}
                     type={product.type}
                     is_favorite={product.is_favorite}
                   />

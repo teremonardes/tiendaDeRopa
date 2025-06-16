@@ -72,6 +72,16 @@ const CardProduct = ({ id_product, product, price, image, description, stock, ty
     }
   }
   const handleAddToCart = async () => {
+    if (!token) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Inicia sesión',
+        text: 'Debes iniciar sesión para agregar productos al carrito',
+        confirmButtonText: 'Ok'
+      })
+      return
+    }
+
     try {
       await addToCart(id_product, 1)
       Swal.fire({
@@ -86,7 +96,7 @@ const CardProduct = ({ id_product, product, price, image, description, stock, ty
         icon: 'error',
         title: 'Error',
         text: 'No se pudo agregar al carrito',
-        error: err.message
+        footer: err.message
       })
     }
   }
