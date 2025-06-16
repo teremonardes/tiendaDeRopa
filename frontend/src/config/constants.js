@@ -1,1 +1,1 @@
-export const URLBASE = 'https://tiendaderopa-27xd.onrender.com/api'
+export const URLBASE = import.meta.env.VITE_URLBASE
