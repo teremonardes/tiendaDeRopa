@@ -21,6 +21,7 @@ const UserProvider = ({ children }) => {
       setUser(data.usuario)
       localStorage.setItem('user', JSON.stringify(data.usuario))
       Alertas(data.message || 'Registro exitoso')
+      await login(mail, pass)
     } catch (error) {
       console.error('Error al registrar:', error)
       Alertas(error.response?.data?.error || 'Error del servidor')
