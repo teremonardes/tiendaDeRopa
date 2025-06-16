@@ -21,16 +21,23 @@ const ProductCarousel = () => {
       {products.map(product => (
         <Carousel.Item
           key={product.id_product}
-          className='costum-slice text-center p-4' onClick={() => handleSlideClick(product.id_product)}
-          style={{ cursor: 'pointer' }}
+          className='costum-slice text-center p-4'
+          onClick={() => handleSlideClick(product.id_product)}
+          style={{ cursor: 'pointer', minHeight: '350px' }}
         >
+
           <div className='d-flex flex-md-row align-items-center justify-content-between mx-auto mx-auto p-4 '>
             <div className='image-container '>
               <img
                 src={product.image}
                 alt={product.product}
                 className='d-block ms-5 img-fluid'
-                style={{ maxHeight: '300px', objectFit: 'contain' }}
+                style={{
+                  maxHeight: '300px',
+                  objectFit: 'contain',
+                  width: '100%',
+                  height: '300px'
+                }}
               />
             </div>
             <div className='text-container d-flex flex-column text-center me-5'>

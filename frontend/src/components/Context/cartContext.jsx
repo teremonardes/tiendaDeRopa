@@ -81,9 +81,12 @@ export const CartProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) fetchCart()
-  }, [])
+    if (!token) {
+      console.log('No hay token, no se carga el carrito')
+      return
+    }
+    fetchCart()
+  }, [token])
 
   return (
     <CartContext.Provider

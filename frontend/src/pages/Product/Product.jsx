@@ -2,12 +2,16 @@ import { useParams } from 'react-router-dom'
 import { useContext, useState, useEffect } from 'react'
 import { ProductContext } from '../../components/Context/fetchContext'
 import { CartContext } from '../../components/Context/cartContext'
+import { userContext } from '../../components/Context/userContext'
+
 import { Button } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 
 const ProductDetail = () => {
   const { id_product } = useParams()
   const { fetchProductById } = useContext(ProductContext)
+  const { token } = useContext(userContext)
+
   const { addToCart } = useContext(CartContext)
 
   const [product, setProduct] = useState(null)
@@ -36,6 +40,16 @@ const ProductDetail = () => {
   const decrease = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1))
 
   const handleAddToCart = () => {
+    if (!token) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Inicia sesión',
+        text: 'Debes iniciar sesión para agregar productos al carrito',
+        confirmButtonText: 'Ok'
+      })
+      return
+    }
+
     if (product) {
       addToCart(product.id_product, quantity)
       Swal.fire({
