@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { userContext } from '../../components/Context/userContext';
+import { CartContext } from '../../components/Context/cartContext'; // 👈 NUEVO
 import LoginForm from '../../pages/Login/Login';
 import RegisterForm from '../../pages/Register/Register';
 
@@ -15,9 +16,8 @@ const Header = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
-
-
   const { user } = useContext(userContext);
+  const { cart } = useContext(CartContext); // 👈 NUEVO
 
   const handleClose = () => setShowAuth(false);
   const handleShow = () => setShowAuth(true);
@@ -31,26 +31,36 @@ const Header = () => {
   };
 
   useEffect(() => {
-  if (user) setShowAuth(false);
-}, [user]);
+    if (user) setShowAuth(false);
+  }, [user]);
 
+  // Calcular cantidad total de productos
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <header className='header d-flex justify-content-between align-items-center p-2'>
       <Link to='/' className='text-decoration-none btn btn-link'>
         <h1 className='header-title'>Mi Closet</h1>
       </Link>
-      <div className="header-icons d-flex gap-3 align-items-center">
-        <Link to='/cart' className='text-decoration-none p-2'>
+
+      <div className="header-icons d-flex gap-3 align-items-center position-relative">
+        <Link to='/cart' className='text-decoration-none p-2 position-relative'>
           <FaShoppingCart size={24} />
+          {totalItems > 0 && (
+            <span
+              className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style={{ fontSize: '0.7rem' }}
+            >
+              {totalItems}
+            </span>
+          )}
         </Link>
-    <FaUserCircle
-  size={24}
-  onClick={handleUserIconClick}
-  style={{ cursor: 'pointer' }}
-/>
 
-
+        <FaUserCircle
+          size={24}
+          onClick={handleUserIconClick}
+          style={{ cursor: 'pointer' }}
+        />
       </div>
 
       <Modal show={showAuth} onHide={handleClose} centered>
