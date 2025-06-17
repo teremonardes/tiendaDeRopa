@@ -52,7 +52,7 @@ function App () {
               {/* Productos del usuario */}
               <Route path='/products/me' element={<MisProductos />} />
 
-              {/* Editar producto (unificamos el param a :id_product) */}
+              {/* Editar producto */}
               <Route path='/editar/:id_product' element={<EditarProducto />} />
 
               {/* Crear producto */}
