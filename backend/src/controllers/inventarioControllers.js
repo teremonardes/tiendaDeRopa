@@ -34,16 +34,16 @@ export const getInventarioUserController = async (req, res) => {
 }
 
 export const deleteProducto = async (req, res) => {
-  const { id } = req.params
+  const { id_product } = req.params
   try {
-    const producto = await getInventarioID(id)
+    const producto = await getInventarioID(id_product)
     if (!producto) {
       return res.status(404).json({ message: 'Producto no encontrado' })
     }
     if (producto.userid !== req.user.userId) {
       return res.status(403).json({ message: 'No tienes permisos para eliminar este producto' })
     }
-    const productoEliminado = await eliminarProductoPorId(id)
+    const productoEliminado = await eliminarProductoPorId(id_product)
     res.json({ mensaje: 'Producto eliminado correctamente', producto: productoEliminado })
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar el producto' })
