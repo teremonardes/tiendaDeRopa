@@ -32,7 +32,7 @@ const Profile = () => {
   }
 
   return (
-    <div className='container mt-5 '>
+    <div className='container m-5 '>
       <h2 className='text-center mb-4'>Mi Perfil</h2>
       <div />
       <div className='card p-4 shadow perfil-card'>
