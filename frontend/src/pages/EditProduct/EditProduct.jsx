@@ -82,6 +82,38 @@ const EditarProducto = () => {
       Alertas(error.message)
     }
   }
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este producto?')
+    if (!confirmDelete) return
+
+    const token = localStorage.getItem('token')
+    if (!token) {
+      Alertas('Debes iniciar sesión')
+      return
+    }
+
+    try {
+      const response = await fetch(`${URLBASE}/products/${id_product}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Error al eliminar el producto')
+      }
+
+      Alertas('Producto eliminado exitosamente')
+      navigate('/products/me')
+    } catch (error) {
+      console.error('Error al eliminar producto:', error.message)
+      Alertas(error.message)
+    }
+  }
+
   if (loading) return <p>Cargando...</p>
 
   return (
@@ -118,14 +150,19 @@ const EditarProducto = () => {
           <input type='text' name='type' className='form-control' value={form.type} onChange={handleChange} required />
         </div>
 
-        <div className='form-group form-check'>
+        <div className='form-group form-check mb-3'>
           <input type='checkbox' name='is_favorite' className='form-check-input' checked={form.is_favorite} onChange={handleChange} />
           <label className='form-check-label'>Favorito</label>
         </div>
+        <div className='mb-3'>
+          <button type='submit' className='btn btn-secondary m-3' style={{ backgroundColor: '#50657c' }}>
+            Guardar Cambios
+          </button>
 
-        <button type='submit' className='btn btn-secondary m-5' style={{ backgroundColor: '#50657c' }}>
-          Guardar Cambios
-        </button>
+          <button type='button' className='btn btn-danger m-3' onClick={handleDelete}>
+            Eliminar Producto
+          </button>
+        </div>
       </form>
     </div>
   )

@@ -84,7 +84,7 @@ const ProductProvider = ({ children }) => {
   // Editar producto
   const editProduct = async (id, productData) => {
     try {
-      const { data } = await api.put(`/products/${id}`, productData)
+      const { data } = await api.put(`/inventario/${id}`, productData)
       await fetchUserProducts()
       return data
     } catch (err) {
