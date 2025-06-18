@@ -53,7 +53,7 @@ const MisProductos = () => {
         {productosAMostrar.length > 0
           ? (
               productosAMostrar.map((product) => (
-                <div className='col-12 col-md-4 mb-4' key={product.id}>
+                <div className='col-12 col-md-4 mb-4' key={product.id_product}>
                   <CardProduct
                     id_product={product.id_product}
                     product={product.product}
@@ -61,6 +61,7 @@ const MisProductos = () => {
                     description={product.description}
                     image={product.image}
                     type={product.type}
+                    stock={product.stock}
                     is_favorite={product.is_favorite}
                     modoEdicion
                   />

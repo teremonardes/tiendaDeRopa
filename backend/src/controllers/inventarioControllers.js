@@ -65,8 +65,6 @@ export const getInventarioById = async (req, res) => {
 }
 
 export const crearProducto = async (req, res) => {
-  console.log('Usuario autenticado:', req.user)
-  console.log('BODY RECIBIDO:', req.body)
   try {
     const { product, description, price, image, stock, type, is_favorite } = req.body
     const { userId } = req.user

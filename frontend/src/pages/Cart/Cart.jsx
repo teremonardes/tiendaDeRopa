@@ -56,7 +56,7 @@ const Cart = () => {
         </thead>
         <tbody>
           {cart.map((item) => (
-            <tr key={item.id_product}>
+            <tr key={item.productid}>
               <td>{item.product}</td>
               <td>${item.price}</td>
               <td>
