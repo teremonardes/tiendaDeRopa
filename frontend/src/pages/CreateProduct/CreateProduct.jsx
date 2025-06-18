@@ -65,7 +65,6 @@ const CreateProduct = () => {
       setStock('')
       setType('')
       setIsFavorite(false)
-
     } catch (error) {
       console.error('Error al enviar:', error)
       Swal.fire({
@@ -130,15 +129,22 @@ const CreateProduct = () => {
           />
         </div>
         <div className='mb-3'>
-          <label>Categoría</label>
-          <input
-            type='text'
+          <label htmlFor='categoria'>Categoría</label>
+          <select
+            id='categoria'
             className='form-control'
             value={type}
             onChange={(e) => setType(e.target.value)}
             required
-          />
+          >
+            <option value=''>Selecciona una categoría</option>
+            <option value='pantalon'>Pantalón</option>
+            <option value='polera'>Polera</option>
+            <option value='chaqueta'>Chaqueta</option>
+            <option value='otra'>Otra</option>
+          </select>
         </div>
+
         <div className='form-check mb-3'>
           <input
             className='form-check-input'

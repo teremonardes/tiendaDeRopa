@@ -144,11 +144,46 @@ const EditarProducto = () => {
           <label>Stock</label>
           <input type='number' name='stock' className='form-control' value={form.stock} onChange={handleChange} required />
         </div>
-
         <div className='form-group'>
-          <label>Categoría</label>
-          <input type='text' name='type' className='form-control' value={form.type} onChange={handleChange} required />
+          <label htmlFor='categoria'>Categoría</label>
+          <select
+            id='categoria'
+            className='form-control'
+            value={
+      ['pantalon', 'polera', 'chaqueta'].includes(form.type)
+        ? form.type
+        : 'otra'
+    }
+            onChange={(e) => {
+              const value = e.target.value
+              setForm((prev) => ({
+                ...prev,
+                type: value === 'otra' ? '' : value
+              }))
+            }}
+            required
+          >
+            <option value=''>Selecciona una categoría</option>
+            <option value='pantalon'>Pantalón</option>
+            <option value='polera'>Polera</option>
+            <option value='chaqueta'>Chaqueta</option>
+            <option value='otra'>Otra</option>
+          </select>
         </div>
+
+        {!['pantalon', 'polera', 'chaqueta'].includes(form.type) && (
+          <div className='form-group'>
+            <label>Otra categoría</label>
+            <input
+              type='text'
+              name='type'
+              className='form-control'
+              value={form.type}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        )}
 
         <div className='form-group form-check mb-3'>
           <input type='checkbox' name='is_favorite' className='form-check-input' checked={form.is_favorite} onChange={handleChange} />

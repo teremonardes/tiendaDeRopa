@@ -1,10 +1,12 @@
-import React from 'react'
-
 const Checkout = () => {
   return (
-    <div className="container mt-5">
-      <h2>Proceso de pago</h2>
-      <p>Aquí iría el formulario o integración con pasarela de pago (por ahora solo simulación).</p>
+    <div className='container mt-5 text-center'>
+      <h2 className='mb-4'>🎉 ¡Gracias por tu compra! 🎉</h2>
+      <p className='lead'>
+        Tu pedido ha sido recibido con éxito.
+        <br />
+        Pronto recibirás un correo con los detalles del envío 📦
+      </p>
     </div>
   )
 }
